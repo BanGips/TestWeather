@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gJO-LH-TxA">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Map View Controller-->
+        <scene sceneID="42i-8W-Jhv">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="gJO-LH-TxA" customClass="MapViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="f5q-vB-l8q">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="5kp-jz-f4j">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="j53-Ng-6aR" appends="YES" id="tae-B2-f2z"/>
+                                </connections>
+                            </mapView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="jGW-iO-zo2"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="jGW-iO-zo2" firstAttribute="trailing" secondItem="5kp-jz-f4j" secondAttribute="trailing" id="Qhg-A0-mQm"/>
+                            <constraint firstItem="5kp-jz-f4j" firstAttribute="top" secondItem="jGW-iO-zo2" secondAttribute="top" id="ZSi-8y-QAc"/>
+                            <constraint firstItem="5kp-jz-f4j" firstAttribute="leading" secondItem="jGW-iO-zo2" secondAttribute="leading" id="lOU-OT-hC8"/>
+                            <constraint firstItem="5kp-jz-f4j" firstAttribute="bottom" secondItem="jGW-iO-zo2" secondAttribute="bottom" id="uq3-zm-m5i"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapViewForWeather" destination="5kp-jz-f4j" id="CmL-8i-yIH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cwV-qw-bFH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="j53-Ng-6aR">
+                    <connections>
+                        <action selector="tapForPutPin:" destination="gJO-LH-TxA" id="YAa-wT-h3L"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-327.536231884058" y="-46.205357142857139"/>
+        </scene>
+    </scenes>
+</document>
