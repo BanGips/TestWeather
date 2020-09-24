@@ -17,7 +17,7 @@ class StartScreenViewController: UIViewController {
         startScreenTableView.delegate = self
         startScreenTableView.dataSource = self
         startScreenTableView.register(UINib(nibName: "CustomSSTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: "TVCell")
-
+        
         }
     }
 
@@ -42,6 +42,7 @@ extension StartScreenViewController:  UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
+            Geolocation.shared.setupLocation()
             let destinationVC = ViewControllerFactory.makeWeatherViewController()
             navigationController?.pushViewController(destinationVC, animated: true)
         case 1:

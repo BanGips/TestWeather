@@ -8,9 +8,8 @@
 import UIKit
 
 class NetworkService {
-    static let shared = NetworkService()
     
-    func getData(url: URL, completion: @escaping (Data) -> Void) {
+   static func getData(url: URL, completion: @escaping (Data) -> Void) {
         let session = URLSession.shared
         
         let task = session.dataTask(with: url) { (data, _, _) in

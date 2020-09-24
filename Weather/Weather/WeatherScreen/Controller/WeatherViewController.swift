@@ -10,6 +10,8 @@ import UIKit
 class WeatherViewController: UIViewController {
     @IBOutlet weak var collectionViewForWeather: UICollectionView!
     @IBOutlet weak var tableViewForWeather: UITableView!
+    private var dataSourceForTableView = [MainWeatherParameters]()
+    private var dataSourceForCollectView = [MainWeatherParameters]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +23,7 @@ class WeatherViewController: UIViewController {
         tableViewForWeather.delegate = self
         tableViewForWeather.dataSource = self
         tableViewForWeather.register(UINib(nibName: "CustomWeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: "cellTVWeather")
+        WeatherNetworkService.shared.printed()
     }
     
     
