@@ -10,11 +10,12 @@ import UIKit
 class CitySelectionViewController: UIViewController {
     @IBOutlet weak var cityNamesCollectionView: UICollectionView!
     
-    private let citiesArray = ["Minsk", "Brest", "Grodno", "Mogilev", "Vitebsk", "Gomel" ]
-    
-    
+    private let citiesArray = ["Minsk", "Brest", "Hrodna", "Mogilev", "Vitebsk", "Homel" ]
+        
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "City selection"
         
         cityNamesCollectionView.delegate = self
         cityNamesCollectionView.dataSource = self
@@ -44,6 +45,7 @@ extension CitySelectionViewController: UICollectionViewDelegateFlowLayout, UICol
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let userTap = citiesArray[indexPath.item]
+        
         WeatherNetworkService.shared.getParametersForURL(string: userTap, coord: nil)
         let destinationVC = ViewControllerFactory.makeWeatherViewController()
         navigationController?.pushViewController(destinationVC, animated: true)

@@ -19,14 +19,17 @@ class WeatherNetworkService {
         coordinate = coord
     }
     
-    func printed() {
-        print(coordinate?.latitude)
-        print(coordinate?.longitude)
+    private func setupURL() -> String {
+        if cityName == nil {
+            return "https://api.openweathermap.org/data/2.5/forecast?lat=\(coordinate!.latitude)&lon=\(coordinate!.longitude)&appid=43eb687365c30bfd88ebe5bf42cf46d1&units=metric"
+        }
+        
+        return "https://api.openweathermap.org/data/2.5/forecast?q=\(cityName!)&appid=43eb687365c30bfd88ebe5bf42cf46d1&&units=metric"
     }
     
+    
     func getWeather(completion: @escaping(DecodeModel) -> Void) {
-        let urlString = "https://api.openweathermap.org/data/2.5/forecast?lat=37.33093591&lon=-122.03058916&appid=43eb687365c30bfd88ebe5bf42cf46d1&units=metric"
-        
+        let urlString = setupURL()
         guard let url = URL(string: urlString) else { return }
         
         NetworkService.getData(url: url) { (data) in
@@ -40,9 +43,9 @@ class WeatherNetworkService {
             }
             
         }
-            
+        
     }
-        
+    
 }
-        
+
 

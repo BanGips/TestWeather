@@ -23,7 +23,10 @@ class WeatherViewController: UIViewController {
         tableViewForWeather.delegate = self
         tableViewForWeather.dataSource = self
         tableViewForWeather.register(UINib(nibName: "CustomWeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: "cellTVWeather")
-        WeatherNetworkService.shared.printed()
+        
+        WeatherNetworkService.shared.getWeather { (response) in
+            print(response.city.name)
+        }
     }
     
     

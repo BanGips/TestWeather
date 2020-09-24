@@ -14,7 +14,9 @@ class NetworkService {
         
         let task = session.dataTask(with: url) { (data, _, _) in
             guard let data = data else { return }
-            completion(data)
+            DispatchQueue.main.async {
+                completion(data)
+            }
         }
         task.resume()
     }
