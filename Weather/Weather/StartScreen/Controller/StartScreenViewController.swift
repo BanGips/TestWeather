@@ -13,13 +13,21 @@ class StartScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
+        title = "Selection screen"
+        
         startScreenTableView.delegate = self
         startScreenTableView.dataSource = self
         startScreenTableView.register(UINib(nibName: "CustomSSTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: "TVCell")
-
-        }
+        
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        Geolocation.shared.setupLocation()
+    }
+    
+}
 
 extension StartScreenViewController:  UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -30,6 +38,7 @@ extension StartScreenViewController:  UITableViewDelegate, UITableViewDataSource
         let cell = startScreenTableView.dequeueReusableCell(withIdentifier: "TVCell", for: indexPath)
         guard let customCell = cell as? CustomSSTableViewCell else { return cell }
         customCell.modeSelectionWeatherLabel.text = modeSelectionArray[indexPath.row]
+        customCell.backgroundColor = .clear
         
         return customCell
     }
