@@ -11,8 +11,8 @@ import CoreLocation
 class WeatherNetworkService {
     static let shared = WeatherNetworkService()
     
-    var cityName: String?
-    var coordinate: CLLocationCoordinate2D?
+    private var cityName: String?
+    private var coordinate: CLLocationCoordinate2D?
     
     func getParametersForURL(string: String?, coord: CLLocationCoordinate2D?) {
         cityName = string

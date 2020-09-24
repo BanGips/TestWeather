@@ -9,12 +9,5 @@ import UIKit
 
 class CustomSSTableViewCell: UITableViewCell {
     @IBOutlet weak var modeSelectionWeatherLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    
-    
+  
 }

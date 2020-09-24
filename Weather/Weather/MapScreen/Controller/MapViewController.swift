@@ -17,7 +17,7 @@ class MapViewController: UIViewController {
         title = "Map"
     }
     
-    func annotation(latitude: Double, longitude: Double) {
+    private func annotation(latitude: Double, longitude: Double) {
         let annotation = PinGeolocation(location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), title: "UserTap", subtitle: "")
         mapViewForWeather.addAnnotation(annotation)
     }

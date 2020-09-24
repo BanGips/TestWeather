@@ -20,25 +20,27 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vgq-KN-GjG">
                         <rect key="frame" x="0.0" y="0.0" width="180" height="150"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gJg-aA-7Ip">
-                                <rect key="frame" x="69" y="0.0" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KmQ-H9-eGw">
                                 <rect key="frame" x="10" y="31" width="160" height="109"/>
-                                <color key="backgroundColor" red="0.33972265899999998" green="0.66666668650000005" blue="0.62476916689999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="109" id="5b1-wF-YKg"/>
+                                    <constraint firstAttribute="width" constant="160" id="UyF-pE-zFa"/>
+                                </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gJg-aA-7Ip">
+                                <rect key="frame" x="66" y="2" width="48" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" systemColor="systemBlueColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.86806074600000005" green="1" blue="0.64071807749999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="KmQ-H9-eGw" secondAttribute="bottom" constant="10" id="9NL-By-R27"/>
-                            <constraint firstItem="gJg-aA-7Ip" firstAttribute="top" secondItem="Vgq-KN-GjG" secondAttribute="top" id="KFP-N5-aQ1"/>
-                            <constraint firstItem="gJg-aA-7Ip" firstAttribute="centerX" secondItem="Vgq-KN-GjG" secondAttribute="centerX" id="TYU-J7-i8j"/>
                             <constraint firstAttribute="trailing" secondItem="KmQ-H9-eGw" secondAttribute="trailing" constant="10" id="kt8-0V-cy1"/>
-                            <constraint firstItem="KmQ-H9-eGw" firstAttribute="top" secondItem="gJg-aA-7Ip" secondAttribute="bottom" constant="10" id="muH-6V-IjL"/>
                             <constraint firstItem="KmQ-H9-eGw" firstAttribute="leading" secondItem="Vgq-KN-GjG" secondAttribute="leading" constant="10" id="qhT-dT-BLN"/>
+                            <constraint firstItem="gJg-aA-7Ip" firstAttribute="centerX" secondItem="Vgq-KN-GjG" secondAttribute="centerX" id="v0y-9t-2JF"/>
+                            <constraint firstItem="KmQ-H9-eGw" firstAttribute="top" secondItem="gJg-aA-7Ip" secondAttribute="bottom" constant="5" id="yzC-3v-TEw"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -60,8 +62,8 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

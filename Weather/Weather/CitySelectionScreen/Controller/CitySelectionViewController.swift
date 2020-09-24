@@ -10,7 +10,8 @@ import UIKit
 class CitySelectionViewController: UIViewController {
     @IBOutlet weak var cityNamesCollectionView: UICollectionView!
     
-    private let citiesArray = ["Minsk", "Brest", "Hrodna", "Mogilev", "Vitebsk", "Homel" ]
+    private let citiesArray = ["Minsk", "Brest", "Hrodna", "Mogilev", "Vitebsk", "Homel"]
+    private let imageArray = [UIImage(named: "minsk"), UIImage(named: "brest"), UIImage(named: "hrodna"), UIImage(named: "mogilev"), UIImage(named: "vitebsk"), UIImage(named: "homel")]
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,8 @@ extension CitySelectionViewController: UICollectionViewDelegateFlowLayout, UICol
         let cell = cityNamesCollectionView.dequeueReusableCell(withReuseIdentifier: "cityNamesCV", for: indexPath)
         guard let customCell = cell as? CustomCityNameCollectionViewCell else { return cell }
         customCell.cityNameLabel.text = citiesArray[indexPath.item]
+        customCell.cityEmblemImage.image = imageArray[indexPath.item]
+        
         return customCell
     }
     

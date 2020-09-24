@@ -15,7 +15,8 @@ class CustomCityNameCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        customContentView.applyCornerRadius(radius: 20)
     }
 
 }

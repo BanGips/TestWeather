@@ -38,6 +38,7 @@ extension StartScreenViewController:  UITableViewDelegate, UITableViewDataSource
         let cell = startScreenTableView.dequeueReusableCell(withIdentifier: "TVCell", for: indexPath)
         guard let customCell = cell as? CustomSSTableViewCell else { return cell }
         customCell.modeSelectionWeatherLabel.text = modeSelectionArray[indexPath.row]
+        customCell.backgroundColor = .clear
         
         return customCell
     }
