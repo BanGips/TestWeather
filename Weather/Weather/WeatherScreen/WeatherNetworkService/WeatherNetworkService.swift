@@ -5,7 +5,7 @@
 //  Created by BanGips on 9/23/20.
 //
 
-import Foundation
+import UIKit
 import CoreLocation
 
 class WeatherNetworkService {
@@ -44,6 +44,16 @@ class WeatherNetworkService {
             
         }
         
+    }
+    
+    func getImage(name: String) -> UIImage {
+        let string = "https://openweathermap.org/img/wn/\(name)@2x.png"
+        let stringURL = URL(string: string)
+        
+        let data = try? Data(contentsOf: stringURL!)
+        let image = UIImage(data: data!)
+        
+        return image!
     }
     
 }

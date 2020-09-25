@@ -211,6 +211,7 @@
 		843944C52519EDAB003DF607 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				84394513251A1F74003DF607 /* DecodeModel.swift */,
 				84030759251B60C000AB3014 /* Geolocation.swift */,
 			);
 			path = Model;
@@ -254,7 +255,6 @@
 		84A9370F251A2B87007644FF /* CitySelectionScreen */ = {
 			isa = PBXGroup;
 			children = (
-				84A93712251A2C99007644FF /* Model */,
 				84A93711251A2C90007644FF /* View */,
 				84A93710251A2C81007644FF /* Controller */,
 			);
@@ -276,13 +276,6 @@
 				84A9371B251A2D47007644FF /* CitySelectionViewController.storyboard */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		84A93712251A2C99007644FF /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		84B9FE762518BD6800BDD969 = {
@@ -341,7 +334,6 @@
 			children = (
 				84241E37251CC55700012D49 /* DateFormatterModel.swift */,
 				843944A42519E4C4003DF607 /* ViewControllerFactory.swift */,
-				84394513251A1F74003DF607 /* DecodeModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -377,7 +369,6 @@
 		84B9FEB92518BE6500BDD969 /* StartScreen */ = {
 			isa = PBXGroup;
 			children = (
-				84B9FEBC2518BF1300BDD969 /* Model */,
 				84B9FEBB2518BF0D00BDD969 /* View */,
 				84B9FEBA2518BEE800BDD969 /* Controller */,
 			);
@@ -399,13 +390,6 @@
 				84B9FE882518BD6800BDD969 /* StartScreen.storyboard */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		84B9FEBC2518BF1300BDD969 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		84B9FEBD2518C90E00BDD969 /* SupportingFiles */ = {
