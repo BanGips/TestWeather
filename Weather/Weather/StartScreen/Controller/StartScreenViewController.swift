@@ -9,7 +9,7 @@ import UIKit
 
 class StartScreenViewController: UIViewController {
     @IBOutlet weak var startScreenTableView: UITableView!
-    private let modeSelectionArray = ["Check by geolocation", "Check by name of city", "Check by map"]
+    private let modeSelectionArray = ["Check by name of city", "Check by geolocation", "Check by map"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,10 +51,10 @@ extension StartScreenViewController:  UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            let destinationVC = ViewControllerFactory.makeWeatherViewController()
+            let destinationVC = ViewControllerFactory.makeCitySelectionViewController()
             navigationController?.pushViewController(destinationVC, animated: true)
         case 1:
-            let destinationVC = ViewControllerFactory.makeCitySelectionViewController()
+            let destinationVC = ViewControllerFactory.makeWeatherViewController()
             navigationController?.pushViewController(destinationVC, animated: true)
         case 2:
             let destinationVC = ViewControllerFactory.makeMapViewController()
