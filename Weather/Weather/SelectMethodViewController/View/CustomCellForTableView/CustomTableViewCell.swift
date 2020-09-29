@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomSSTableViewCell: UITableViewCell {
+class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var modeSelectionWeatherLabel: UILabel!
   
 }
