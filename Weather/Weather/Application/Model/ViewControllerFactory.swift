@@ -7,25 +7,26 @@
 
 import UIKit
 
+
 struct ViewControllerFactory {
     
-    static func makeMapViewController() -> MapViewController {
-        let storyboard = UIStoryboard(name: "MapViewController", bundle: Bundle.main)
-        let destinationVC = storyboard.instantiateInitialViewController() as! MapViewController
+    static func makeMapViewController() -> UIViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let destinationVC = storyboard.instantiateViewController(identifier: "MapViewController")
         
         return destinationVC
     }
     
-    static func makeWeatherViewController() -> WeatherViewController {
-        let storyboard = UIStoryboard(name: "WeatherViewController", bundle: Bundle.main)
-        let destinationVC = storyboard.instantiateInitialViewController() as! WeatherViewController
+    static func makeWeatherViewController() -> UIViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let destinationVC = storyboard.instantiateViewController(identifier: "WeatherViewController")
         
         return destinationVC
     }
     
-    static func makeCitySelectionViewController() -> CitySelectionViewController {
-        let storyboard = UIStoryboard(name: "CitySelectionViewController", bundle: Bundle.main)
-        let destinationVC = storyboard.instantiateInitialViewController() as! CitySelectionViewController
+    static func makeCitySelectionViewController() -> UIViewController {
+        let storybord = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let destinationVC = storybord.instantiateViewController(identifier: "CitySelectionViewController")
         
         return destinationVC
     }
