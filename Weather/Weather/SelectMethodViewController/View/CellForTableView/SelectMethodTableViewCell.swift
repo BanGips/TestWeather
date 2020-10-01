@@ -7,7 +7,11 @@
 
 import UIKit
 
-class CustomTableViewCell: UITableViewCell {
+class SelectMethodTableViewCell: UITableViewCell {
     @IBOutlet weak var modeSelectionWeatherLabel: UILabel!
   
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+    }
 }

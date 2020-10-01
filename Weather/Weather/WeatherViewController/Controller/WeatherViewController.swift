@@ -18,19 +18,19 @@ class WeatherViewController: UIViewController {
     
     private var dataSourceForTableView = [MainWeatherParameters]()
     private var dataSourceForCollectView = [MainWeatherParameters]()
-    private let collectionViewCellID = "CustomWeatherCollectionViewCell"
-    private let tableViewCellID = "CustomWeatherTableViewCell"
+    private let collectionViewCellID = "WeatherCollectionViewCell"
+    private let tableViewCellID = "WeatherTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(UINib(nibName: "CustomWeatherCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: collectionViewCellID)
+        collectionView.register(UINib(nibName: "WeatherCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: collectionViewCellID)
 
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "CustomWeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: tableViewCellID)
+        tableView.register(UINib(nibName: "WeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: tableViewCellID)
         
         
         
@@ -59,7 +59,7 @@ extension WeatherViewController: UICollectionViewDelegateFlowLayout, UICollectio
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellID, for: indexPath)
-        guard let customCell = cell as? CustomWeatherCollectionViewCell else { return cell }
+        guard let customCell = cell as? WeatherCollectionViewCell else { return cell }
         customCell.configure(with: dataSourceForCollectView[indexPath.item])
         
         return customCell
@@ -78,7 +78,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath)
-        guard let customCell = cell as? CustomWeatherTableViewCell else { return cell }
+        guard let customCell = cell as? WeatherTableViewCell else { return cell }
         customCell.configure(with: dataSourceForTableView[indexPath.row])
         customCell.backgroundColor = .clear
         
@@ -90,3 +90,4 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
 }
+

@@ -34,7 +34,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="jeq-Hq-m2y"/>
                     <connections>
-                        <outlet property="TableView" destination="VT5-eU-smr" id="yo1-hL-7I0"/>
+                        <outlet property="tableView" destination="VT5-eU-smr" id="yo1-hL-7I0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -44,7 +44,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Xmd-C8-Vxa">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ijx-E8-RPO" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="ijx-E8-RPO" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="RC5-56-y5O">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -59,10 +59,10 @@
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="38.839285714285715"/>
         </scene>
-        <!--City Selection View Controller-->
+        <!--Selection City View Controller-->
         <scene sceneID="sLp-LD-lGP">
             <objects>
-                <viewController storyboardIdentifier="CitySelectionViewController" modalPresentationStyle="fullScreen" id="fej-ZP-AyZ" customClass="CitySelectionViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CitySelectionViewController" modalPresentationStyle="fullScreen" id="fej-ZP-AyZ" customClass="SelectionCityViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Rh3-wo-CIl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -70,18 +70,18 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ghi-0v-aOi">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" systemColor="systemTealColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ga1-3A-vBj">
-                                    <size key="itemSize" width="128" height="128"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="20" minimumInteritemSpacing="0.0" id="ga1-3A-vBj">
+                                    <size key="itemSize" width="200" height="200"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="10"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cityNamesCV" id="1bz-Qz-GEB">
-                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5io-G2-TL8">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </collectionViewCellContentView>
                                     </collectionViewCell>
@@ -131,7 +131,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="mapViewForWeather" destination="U5q-VG-6TJ" id="iCB-8d-JZL"/>
+                        <outlet property="mapView" destination="U5q-VG-6TJ" id="iCB-8d-JZL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="COy-BT-l89" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

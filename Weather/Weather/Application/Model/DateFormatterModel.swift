@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class DateFormatterModel {
+    
     static let shared = DateFormatterModel()
     
     private var dateFormatter: DateFormatter?

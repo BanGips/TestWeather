@@ -10,29 +10,10 @@ import CoreLocation
 
 class WeatherNetworkService {
     static let shared = WeatherNetworkService()
-    
-    private var cityName: String?
-    private var coordinate: CLLocationCoordinate2D!
-    
-    func getParametersForURL(string: String?, coord: CLLocationCoordinate2D?) {
-        guard let coordinate = coord else { return }
-        self.coordinate = coordinate
-        cityName = string
-      
-    }
-    
-    private func setupURL() -> String {
-        if cityName != nil {
-            if let city = cityName {
-                return "https://api.openweathermap.org/data/2.5/forecast?q=\(city)&appid=43eb687365c30bfd88ebe5bf42cf46d1&&units=metric"
-            }
-        }
-        return "https://api.openweathermap.org/data/2.5/forecast?lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appid=43eb687365c30bfd88ebe5bf42cf46d1&units=metric"
-    }
-    
-    
+  
     func getWeather(completion: @escaping(DecodeModel) -> Void) {
-        let urlString = setupURL()
+        
+        let urlString = ""
         guard let url = URL(string: urlString) else { return }
         
         NetworkService.getData(url: url) { (data) in
@@ -59,6 +40,8 @@ class WeatherNetworkService {
         return image!
     }
     
+//    "https://api.openweathermap.org/data/2.5/forecast?q=\(city)&appid=43eb687365c30bfd88ebe5bf42cf46d1&&units=metric"
+//    "https://api.openweathermap.org/data/2.5/forecast?lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appid=43eb687365c30bfd88ebe5bf42cf46d1&units=metric"
 }
 
 

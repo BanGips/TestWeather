@@ -14,7 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+//        self.window = UIWindow(frame: UIScreen.main.bounds)
+//        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let navigationViewController: SelectMethodViewController = mainStoryboard.instantiateViewController(identifier: "SelectMethodViewController") as! SelectMethodViewController
+//        self.window?.rootViewController = navigationViewController
+//        self.window?.makeKeyAndVisible()
+        
         return true
     }
 

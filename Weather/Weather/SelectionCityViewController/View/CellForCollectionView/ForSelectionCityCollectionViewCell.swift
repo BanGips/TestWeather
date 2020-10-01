@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomCityNameCollectionViewCell: UICollectionViewCell {
+class ForSelectionCityCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var customContentView: UIView!
     @IBOutlet weak var cityNameLabel: UILabel!
     @IBOutlet weak var cityEmblemImage: UIImageView!

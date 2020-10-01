@@ -8,24 +8,35 @@
 import UIKit
 
 class SelectMethodViewController: UIViewController {
-    @IBOutlet weak var TableView: UITableView!
-    private let items = [RowItem.checkByCity.rawValue, RowItem.checkByGeo.rawValue, RowItem.checkByMap.rawValue]
-    private let cellID = "CustomTableViewCell"
+    
+    @IBOutlet weak var tableView: UITableView!
+    
+    private let items: [RowItem] = [.checkByCity, .checkByGeo, .checkByMap]
+    private let cellID = "SelectMethodTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Selection screen"
-        
-        TableView.delegate = self
-        TableView.dataSource = self
-        TableView.register(UINib(nibName: "CustomTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: cellID)
+        setupTableView()
+        setupUI()
 
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         Geolocation.shared.setupLocation()
+    }
+    
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: "SelectMethodTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: cellID)
+
+    }
+    
+    private func setupUI() {
+        title = "Selection screen"
     }
     
 }
@@ -36,31 +47,25 @@ extension SelectMethodViewController:  UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = TableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
-        guard let customCell = cell as? CustomTableViewCell else { return cell }
-        customCell.modeSelectionWeatherLabel.text = items[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        guard let customCell = cell as? SelectMethodTableViewCell else { return cell }
+        customCell.modeSelectionWeatherLabel.text = items[indexPath.row].rawValue
         customCell.backgroundColor = .clear
         
         return customCell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.bounds.height / 8
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch items[indexPath.row] {
-        case RowItem.checkByCity.rawValue:
+        case .checkByCity:
             let destinationVC = ViewControllerFactory.makeCitySelectionViewController()
             navigationController?.pushViewController(destinationVC, animated: true)
-        case RowItem.checkByGeo.rawValue:
+        case .checkByGeo:
             let destinationVC = ViewControllerFactory.makeWeatherViewController()
             navigationController?.pushViewController(destinationVC, animated: true)
-        case RowItem.checkByMap.rawValue:
+        case .checkByMap:
             let destinationVC = ViewControllerFactory.makeMapViewController()
             navigationController?.pushViewController(destinationVC, animated: true)
-        default:
-            break
         }
     }
 }
