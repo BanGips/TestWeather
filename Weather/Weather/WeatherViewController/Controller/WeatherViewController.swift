@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import CoreLocation
 
 class WeatherViewController: UIViewController {
+    
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var cityNameLabel: UILabel!
@@ -21,22 +23,18 @@ class WeatherViewController: UIViewController {
     private let collectionViewCellID = "WeatherCollectionViewCell"
     private let tableViewCellID = "WeatherTableViewCell"
     
+    var cityName: String?
+    var location: CLLocationCoordinate2D?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(UINib(nibName: "WeatherCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: collectionViewCellID)
-
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "WeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: tableViewCellID)
+        setupTableView()
+        setupCollectionView()
         
-        
-        
-        WeatherNetworkService.shared.getWeather { (response) in
+        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { (response) in
             let dataSource = response.list
-            
+
             self.dataSourceForTableView = [dataSource[8], dataSource[16], dataSource[24], dataSource[32]]
             self.dataSourceForCollectView.append(contentsOf: dataSource[0...7])
             self.tableView.reloadData()
@@ -47,8 +45,20 @@ class WeatherViewController: UIViewController {
             self.windLabel.text = "Wind m/s: \(dataSource.first!.wind.speed)"
             self.descriptionLabel.text = "\(dataSource.first!.weather.first!.description)"
         }
+
     }
     
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UINib(nibName: "WeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: tableViewCellID)
+    }
+    
+    private func setupCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(UINib(nibName: "WeatherCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: collectionViewCellID)
+    }
     
 }
 
@@ -90,4 +100,5 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
 }
+
 

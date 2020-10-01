@@ -62,7 +62,7 @@
         <!--Selection City View Controller-->
         <scene sceneID="sLp-LD-lGP">
             <objects>
-                <viewController storyboardIdentifier="CitySelectionViewController" modalPresentationStyle="fullScreen" id="fej-ZP-AyZ" customClass="SelectionCityViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SelectionCityViewController" modalPresentationStyle="fullScreen" id="fej-ZP-AyZ" customClass="SelectionCityViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Rh3-wo-CIl">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

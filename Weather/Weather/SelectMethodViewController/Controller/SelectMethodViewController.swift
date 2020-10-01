@@ -6,10 +6,14 @@
 //
 
 import UIKit
+import CoreLocation
 
 class SelectMethodViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    
+    private var locationManager: CLLocationManager?
+    var currentLocation: CLLocationCoordinate2D?
     
     private let items: [RowItem] = [.checkByCity, .checkByGeo, .checkByMap]
     private let cellID = "SelectMethodTableViewCell"
@@ -25,7 +29,14 @@ class SelectMethodViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        Geolocation.shared.setupLocation()
+        setupLocation()
+    }
+    
+    private func setupLocation() {
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.requestWhenInUseAuthorization()
+        locationManager?.requestLocation()
     }
     
     private func setupTableView() {
@@ -62,6 +73,7 @@ extension SelectMethodViewController:  UITableViewDelegate, UITableViewDataSourc
             navigationController?.pushViewController(destinationVC, animated: true)
         case .checkByGeo:
             let destinationVC = ViewControllerFactory.makeWeatherViewController()
+            destinationVC.location = currentLocation
             navigationController?.pushViewController(destinationVC, animated: true)
         case .checkByMap:
             let destinationVC = ViewControllerFactory.makeMapViewController()
@@ -76,5 +88,15 @@ extension SelectMethodViewController {
         case checkByGeo = "Check by geolocation"
         case checkByCity = "Check by name of city"
     }
+}
+
+extension SelectMethodViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if !locations.isEmpty, currentLocation == nil {
+            currentLocation = locations.first?.coordinate
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) { }
 }
 
