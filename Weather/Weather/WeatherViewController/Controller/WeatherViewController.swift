@@ -31,20 +31,7 @@ class WeatherViewController: UIViewController {
 
         setupTableView()
         setupCollectionView()
-        
-        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { (response) in
-            let dataSource = response.list
-
-            self.dataSourceForTableView = [dataSource[8], dataSource[16], dataSource[24], dataSource[32]]
-            self.dataSourceForCollectView.append(contentsOf: dataSource[0...7])
-            self.tableView.reloadData()
-            self.collectionView.reloadData()
-            self.cityNameLabel.text = response.city.name
-            self.mainTempLabel.text = "\(Int(self.dataSourceForCollectView.first!.main.temp))°"
-            self.humidityLabel.text = "Humidity: \(dataSource.first!.main.humidity)%"
-            self.windLabel.text = "Wind m/s: \(dataSource.first!.wind.speed)"
-            self.descriptionLabel.text = "\(dataSource.first!.weather.first!.description)"
-        }
+        setupUI()
 
     }
     
@@ -58,6 +45,22 @@ class WeatherViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: "WeatherCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: collectionViewCellID)
+    }
+    
+    private func setupUI() {
+        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (response) in
+            let dataSource = response.list
+
+            self.dataSourceForTableView = [dataSource[8], dataSource[16], dataSource[24], dataSource[32]]
+            self.dataSourceForCollectView.append(contentsOf: dataSource[0...7])
+            self.tableView.reloadData()
+            self.collectionView.reloadData()
+            self.cityNameLabel.text = response.city.name
+            self.mainTempLabel.text = "\(Int(self.dataSourceForCollectView.first!.main.temp))°"
+            self.humidityLabel.text = "Humidity: \(dataSource.first!.main.humidity)%"
+            self.windLabel.text = "Wind m/s: \(dataSource.first!.wind.speed)"
+            self.descriptionLabel.text = "\(dataSource.first!.weather.first!.description)"
+        }
     }
     
 }
@@ -95,10 +98,6 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         return customCell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.bounds.height / 4
-    }
-
 }
 
 

@@ -15,6 +15,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+//        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "SelectMethodViewController") as! SelectMethodViewController
+//        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+//        appDelegate?.window?.rootViewController = viewController
+        
         return true
     }
 
