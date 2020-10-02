@@ -68,6 +68,7 @@ extension SelectionCityViewController: UICollectionViewDelegateFlowLayout, UICol
         switch userTap {
         case let .item(name, _):
             let destinationVC = ViewControllerFactory.makeWeatherViewController()
+            destinationVC.cityName = name
             navigationController?.pushViewController(destinationVC, animated: true)
             
         }
@@ -81,3 +82,4 @@ extension SelectionCityViewController {
         case item(name: String, image: UIImage!)
     }
 }
+

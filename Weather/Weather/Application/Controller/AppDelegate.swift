@@ -15,11 +15,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-//        self.window = UIWindow(frame: UIScreen.main.bounds)
-//        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let navigationViewController: SelectMethodViewController = mainStoryboard.instantiateViewController(identifier: "SelectMethodViewController") as! SelectMethodViewController
-//        self.window?.rootViewController = navigationViewController
-//        self.window?.makeKeyAndVisible()
+//        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "SelectMethodViewController") as! SelectMethodViewController
+//        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+//        appDelegate?.window?.rootViewController = viewController
         
         return true
     }

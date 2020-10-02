@@ -9,25 +9,44 @@ import UIKit
 import MapKit
 
 class MapViewController: UIViewController {
+    
     @IBOutlet weak var mapView: MKMapView!
+    
+    var annotation: MKPointAnnotation!
+    var coordinate: CLLocationCoordinate2D!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Map"
+       setupUI()
     }
     
-    private func annotation(latitude: Double, longitude: Double) {
-        let annotation = PinGeolocation(location: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), title: "UserTap", subtitle: "")
-        mapView.addAnnotation(annotation)
+    private func makeAnnotation(coordinate: CLLocationCoordinate2D ) -> MKPointAnnotation {
+       let annotation = MKPointAnnotation()
+        annotation.title = "UserPin"
+        annotation.coordinate = coordinate
+        return annotation
+    }
+    
+    private func setupUI() {
+        title = "Map"
+        
+        let button = UIBarButtonItem(title: "Check", style: .plain, target: self, action: #selector(actionSetting))
+        navigationItem.rightBarButtonItem = button
     }
     
     @IBAction func tapForPutPin(_ sender: UITapGestureRecognizer) {
-        let point = sender.location(in: mapView)
-        let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
-        annotation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        if annotation != nil { mapView.removeAnnotation(annotation) }
         
+        let point = sender.location(in: mapView)
+        coordinate = mapView.convert(point, toCoordinateFrom: mapView)
+        annotation = makeAnnotation(coordinate: coordinate)
+        mapView.addAnnotation(annotation)
+    }
+    
+    @objc func actionSetting() {
         let destinationVC = ViewControllerFactory.makeWeatherViewController()
+        destinationVC.location = coordinate
         navigationController?.pushViewController(destinationVC, animated: true)
     }
     
