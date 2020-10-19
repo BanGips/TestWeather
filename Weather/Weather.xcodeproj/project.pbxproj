@@ -32,6 +32,7 @@
 		84B9FE8F2518BD6900BDD969 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84B9FE8D2518BD6900BDD969 /* LaunchScreen.storyboard */; };
 		84B9FE9A2518BD6900BDD969 /* WeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9FE992518BD6900BDD969 /* WeatherTests.swift */; };
 		84B9FEA52518BD6900BDD969 /* WeatherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B9FEA42518BD6900BDD969 /* WeatherUITests.swift */; };
+		84F92E97253DBB2C00F5EE3A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F92E96253DBB2C00F5EE3A /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		84B9FEA02518BD6900BDD969 /* WeatherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84B9FEA42518BD6900BDD969 /* WeatherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUITests.swift; sourceTree = "<group>"; };
 		84B9FEA62518BD6900BDD969 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84F92E96253DBB2C00F5EE3A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,6 +326,7 @@
 				84B9FEB62518BDC600BDD969 /* View */,
 				84B9FEB72518BDD700BDD969 /* Controller */,
 				84394518251A1FE6003DF607 /* NetworkService */,
+				84F92E95253DBAFD00F5EE3A /* LocationManager */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -361,6 +364,14 @@
 				8403074C251B584D00AB3014 /* ForSelectionCityCollectionViewCell.xib */,
 			);
 			path = CellForCollectionView;
+			sourceTree = "<group>";
+		};
+		84F92E95253DBAFD00F5EE3A /* LocationManager */ = {
+			isa = PBXGroup;
+			children = (
+				84F92E96253DBB2C00F5EE3A /* LocationManager.swift */,
+			);
+			path = LocationManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -503,6 +514,7 @@
 				843944B12519E774003DF607 /* MapViewController.swift in Sources */,
 				843944A52519E4C4003DF607 /* ViewControllerFactory.swift in Sources */,
 				84B9FE832518BD6800BDD969 /* AppDelegate.swift in Sources */,
+				84F92E97253DBB2C00F5EE3A /* LocationManager.swift in Sources */,
 				84394514251A1F74003DF607 /* DecodeModel.swift in Sources */,
 				84A93717251A2D2B007644FF /* SelectionCityViewController.swift in Sources */,
 				8439449F2519E109003DF607 /* SelectMethodTableViewCell.swift in Sources */,
@@ -618,7 +630,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -673,7 +685,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -729,7 +741,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6GTJ637UNQ;
 				INFOPLIST_FILE = WeatherTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -751,7 +763,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6GTJ637UNQ;
 				INFOPLIST_FILE = WeatherTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

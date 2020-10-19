@@ -12,21 +12,21 @@ struct ViewControllerFactory {
     
     static func makeMapViewController() -> MapViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let destinationVC = storyboard.instantiateViewController(identifier: "MapViewController") as! MapViewController
+        let destinationVC = storyboard.instantiateViewController(withIdentifier: "MapViewController") as! MapViewController
         
         return destinationVC
     }
     
     static func makeWeatherViewController() -> WeatherViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let destinationVC = storyboard.instantiateViewController(identifier: "WeatherViewController") as! WeatherViewController
+        let destinationVC = storyboard.instantiateViewController(withIdentifier: "WeatherViewController") as! WeatherViewController
         
         return destinationVC
     }
     
     static func makeCitySelectionViewController() -> SelectionCityViewController {
         let storybord = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let destinationVC = storybord.instantiateViewController(identifier: "SelectionCityViewController") as! SelectionCityViewController
+        let destinationVC = storybord.instantiateViewController(withIdentifier: "SelectionCityViewController") as! SelectionCityViewController
         
         return destinationVC
     }

@@ -51,7 +51,7 @@ class WeatherViewController: UIViewController {
         WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (response) in
             let dataSource = response.list
 
-            self.dataSourceForTableView = [dataSource[8], dataSource[16], dataSource[24], dataSource[32]]
+            self.dataSourceForTableView.append(contentsOf: dataSource)
             self.dataSourceForCollectView.append(contentsOf: dataSource[0...7])
             self.tableView.reloadData()
             self.collectionView.reloadData()
