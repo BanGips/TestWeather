@@ -13,7 +13,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     private var dataSourceForTableView = [MainWeatherParameters]()
-    var response: DecodeModel?
+    private var response: DecodeModel?
     private let containerCellID = "ContainerTableViewCell"
     private let tableViewCellID = "WeatherTableViewCell"
     
@@ -42,6 +42,7 @@ class WeatherViewController: UIViewController {
     
     private func setupUI() {
         WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (response) in
+            
             self.response = response
             let dataSource = response.list
             
