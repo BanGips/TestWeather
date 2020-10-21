@@ -10,18 +10,14 @@ import CoreLocation
 
 class WeatherViewController: UIViewController {
     
-    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var cityNameLabel: UILabel!
-    @IBOutlet weak var mainTempLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var humidityLabel: UILabel!
-    @IBOutlet weak var windLabel: UILabel!
     
     private var dataSourceForTableView = [MainWeatherParameters]()
-    private var dataSourceForCollectView = [MainWeatherParameters]()
-    private let collectionViewCellID = "WeatherCollectionViewCell"
+    var response: DecodeModel?
+    private let containerCellID = "ContainerTableViewCell"
     private let tableViewCellID = "WeatherTableViewCell"
+    
+    private let headerView = HeaderView()
     
     var cityName: String?
     var location: CLLocationCoordinate2D?
@@ -30,7 +26,6 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
 
         setupTableView()
-        setupCollectionView()
         setupUI()
 
     }
@@ -39,67 +34,55 @@ class WeatherViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "WeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: tableViewCellID)
-    }
-    
-    private func setupCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(UINib(nibName: "WeatherCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: collectionViewCellID)
+        tableView.register(UINib(nibName: "ContainerTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: containerCellID)
+        
+        let headerNib = UINib(nibName: "HeaderView", bundle: Bundle.main)
+        tableView.register(headerNib, forHeaderFooterViewReuseIdentifier: "HeaderView")
     }
     
     private func setupUI() {
         WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (response) in
+            self.response = response
             let dataSource = response.list
-
-            self.dataSourceForTableView.append(contentsOf: dataSource)
-            self.dataSourceForCollectView.append(contentsOf: dataSource[0...7])
+            
+            self.dataSourceForTableView.append(contentsOf: dataSource[8...])
             self.tableView.reloadData()
-            self.collectionView.reloadData()
-            self.cityNameLabel.text = response.city.name
-            self.mainTempLabel.text = "\(Int(self.dataSourceForCollectView.first!.main.temp))°"
-            self.humidityLabel.text = "Humidity: \(dataSource.first!.main.humidity)%"
-            self.windLabel.text = "Wind m/s: \(dataSource.first!.wind.speed)"
-            self.descriptionLabel.text = "\(dataSource.first!.weather.first!.description)"
         }
     }
     
 }
 
-extension WeatherViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSourceForCollectView.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellID, for: indexPath)
-        guard let customCell = cell as? WeatherCollectionViewCell else { return cell }
-        customCell.configure(with: dataSourceForCollectView[indexPath.item])
-        
-        return customCell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width / 4.5, height: collectionView.bounds.height)
-    }
-    
-}
 
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! HeaderView
+        headerView.setupHeaderUI(response: response)
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 150
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSourceForTableView.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath)
-        guard let customCell = cell as? WeatherTableViewCell else { return cell }
-        customCell.configure(with: dataSourceForTableView[indexPath.row])
-        customCell.backgroundColor = .clear
+        let rowSetup = indexPath.row
         
-        return customCell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.bounds.height / 4
+        if rowSetup == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
+            
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! WeatherTableViewCell
+            cell.configure(with: dataSourceForTableView[indexPath.row])
+            cell.backgroundColor = .clear
+            
+            return cell
+        }
+        
     }
     
 }
