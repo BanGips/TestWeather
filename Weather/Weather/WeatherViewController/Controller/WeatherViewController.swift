@@ -11,13 +11,12 @@ import CoreLocation
 class WeatherViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     private var dataSourceForTableView = [MainWeatherParameters]()
-    private var response: DecodeModel?
+    private var weatherParameters: DecodeModel?
     private let containerCellID = "ContainerTableViewCell"
     private let tableViewCellID = "WeatherTableViewCell"
-    
-    private let headerView = HeaderView()
     
     var cityName: String?
     var location: CLLocationCoordinate2D?
@@ -26,7 +25,8 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
 
         setupTableView()
-        setupUI()
+        getWeatherParameters()
+        setupActivityIndicator()
 
     }
     
@@ -40,15 +40,22 @@ class WeatherViewController: UIViewController {
         tableView.register(headerNib, forHeaderFooterViewReuseIdentifier: "HeaderView")
     }
     
-    private func setupUI() {
+    private func getWeatherParameters() {
         WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (response) in
             
-            self.response = response
+            self.weatherParameters = response
             let dataSource = response.list
             
-            self.dataSourceForTableView.append(contentsOf: dataSource[8...])
+            self.dataSourceForTableView.append(contentsOf: dataSource)
             self.tableView.reloadData()
+            activityIndicator.stopAnimating()
         }
+    }
+    
+    private func setupActivityIndicator() {
+        let transform = CGAffineTransform(scaleX: 3, y: 3)
+        activityIndicator.transform = transform
+        activityIndicator.startAnimating()
     }
     
 }
@@ -57,15 +64,18 @@ class WeatherViewController: UIViewController {
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! HeaderView
-        headerView.setupHeaderUI(response: response)
+        headerView.configure(parameters: weatherParameters)
+        
         return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
         return 150
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return dataSourceForTableView.count
     }
 
@@ -74,6 +84,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         
         if rowSetup == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
+            cell.dataSourceCollectionView = dataSourceForTableView
             
             return cell
         } else {

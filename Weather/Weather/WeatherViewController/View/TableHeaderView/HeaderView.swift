@@ -15,8 +15,8 @@ class HeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var humidityLabel: UILabel!
     
     
-    func setupHeaderUI( response: DecodeModel?) {
-        guard let testedResponse = response else { return }
+    func configure( parameters: DecodeModel?) {
+        guard let testedResponse = parameters else { return }
         
         cityLabel.text = testedResponse.city.name
         temperatureLabel.text = "\(Int(testedResponse.list.first!.main.temp))°"
