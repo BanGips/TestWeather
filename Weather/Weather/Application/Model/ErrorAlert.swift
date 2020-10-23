@@ -10,8 +10,8 @@ import UIKit
 
 extension UIViewController {
     
-    func showAlert() {
-        let alert = UIAlertController(title: "Network error", message: "Not network connection", preferredStyle: .alert)
+    func showAlert(description: String) {
+        let alert = UIAlertController(title: "Network error", message: description, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }

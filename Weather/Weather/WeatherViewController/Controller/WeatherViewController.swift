@@ -42,12 +42,16 @@ class WeatherViewController: UIViewController {
     }
     
     private func getWeatherParameters() {
-        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (response) in
-            self.weatherParameters = response
-            let dataSource = response.list
+        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (weatherData, error) in
+            if error != nil {
+                showAlert(description: error!.localizedDescription)
+
+            } else if let weatherData = weatherData {
+                self.weatherParameters = weatherData
+                self.dataSourceForTableView.append(contentsOf: weatherData.list)
+                self.tableView.reloadData()
+            }
             
-            self.dataSourceForTableView.append(contentsOf: dataSource)
-            self.tableView.reloadData()
             self.activityIndicator.stopAnimating()
         }
     }
@@ -58,7 +62,6 @@ class WeatherViewController: UIViewController {
     }
     
 }
-
 
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
