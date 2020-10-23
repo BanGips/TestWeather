@@ -15,6 +15,7 @@ class WeatherViewController: UIViewController {
     
     private var dataSourceForTableView = [MainWeatherParameters]()
     private var weatherParameters: DecodeModel?
+    
     private let containerCellID = "ContainerTableViewCell"
     private let tableViewCellID = "WeatherTableViewCell"
     
@@ -42,19 +43,17 @@ class WeatherViewController: UIViewController {
     
     private func getWeatherParameters() {
         WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (response) in
-            
             self.weatherParameters = response
             let dataSource = response.list
             
             self.dataSourceForTableView.append(contentsOf: dataSource)
             self.tableView.reloadData()
-            activityIndicator.stopAnimating()
+            self.activityIndicator.stopAnimating()
         }
     }
     
     private func setupActivityIndicator() {
-        let transform = CGAffineTransform(scaleX: 3, y: 3)
-        activityIndicator.transform = transform
+        activityIndicator.transform = CGAffineTransform(scaleX: 3, y: 3)
         activityIndicator.startAnimating()
     }
     
@@ -63,10 +62,10 @@ class WeatherViewController: UIViewController {
 
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! HeaderView
-        headerView.configure(parameters: weatherParameters)
+        let tableHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! tableHeader
+        tableHeader.configure(parameters: weatherParameters)
         
-        return headerView
+        return tableHeader
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -95,6 +94,14 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
         
+    }
+    
+}
+
+extension WeatherViewController {
+    enum RowItem {
+        case item
+        case row
     }
     
 }

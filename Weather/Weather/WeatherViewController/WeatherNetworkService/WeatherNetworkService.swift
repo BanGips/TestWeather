@@ -22,7 +22,8 @@ class WeatherNetworkService {
         
         guard let url = URL(string: urlSting ) else { return }
         
-        NetworkService.getData(url: url) { (data) in
+        NetworkService.getData(url: url) { (data, error ) in
+            
             do {
                 let decoder = JSONDecoder()
                 let json = try decoder.decode(DecodeModel.self, from: data)

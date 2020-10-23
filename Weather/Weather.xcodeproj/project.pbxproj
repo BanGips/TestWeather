@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CD659CE2542D44A00508C22 /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD659CD2542D44A00508C22 /* ErrorAlert.swift */; };
 		84030743251B33CC00AB3014 /* WeatherNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84030742251B33CC00AB3014 /* WeatherNetworkService.swift */; };
 		8403074D251B584D00AB3014 /* ForSelectionCityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8403074B251B584D00AB3014 /* ForSelectionCityCollectionViewCell.swift */; };
 		8403074E251B584D00AB3014 /* ForSelectionCityCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8403074C251B584D00AB3014 /* ForSelectionCityCollectionViewCell.xib */; };
@@ -21,7 +22,7 @@
 		8439450F251A0F2E003DF607 /* WeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8439450D251A0F2E003DF607 /* WeatherTableViewCell.xib */; };
 		84394514251A1F74003DF607 /* DecodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84394513251A1F74003DF607 /* DecodeModel.swift */; };
 		8439451A251A202F003DF607 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84394519251A202F003DF607 /* NetworkService.swift */; };
-		846B8079254018C800453D7C /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B8078254018C800453D7C /* HeaderView.swift */; };
+		846B8079254018C800453D7C /* tableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B8078254018C800453D7C /* tableHeader.swift */; };
 		846B807E2540193700453D7C /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 846B807D2540193700453D7C /* HeaderView.xib */; };
 		846B808625401DC600453D7C /* ContainerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846B808425401DC600453D7C /* ContainerTableViewCell.swift */; };
 		846B808725401DC600453D7C /* ContainerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 846B808525401DC600453D7C /* ContainerTableViewCell.xib */; };
@@ -57,6 +58,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2CD659CD2542D44A00508C22 /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 		84030742251B33CC00AB3014 /* WeatherNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNetworkService.swift; sourceTree = "<group>"; };
 		8403074B251B584D00AB3014 /* ForSelectionCityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForSelectionCityCollectionViewCell.swift; sourceTree = "<group>"; };
 		8403074C251B584D00AB3014 /* ForSelectionCityCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForSelectionCityCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -71,7 +73,7 @@
 		8439450D251A0F2E003DF607 /* WeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WeatherTableViewCell.xib; sourceTree = "<group>"; };
 		84394513251A1F74003DF607 /* DecodeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeModel.swift; sourceTree = "<group>"; };
 		84394519251A202F003DF607 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		846B8078254018C800453D7C /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		846B8078254018C800453D7C /* tableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tableHeader.swift; sourceTree = "<group>"; };
 		846B807D2540193700453D7C /* HeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		846B808425401DC600453D7C /* ContainerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerTableViewCell.swift; sourceTree = "<group>"; };
 		846B808525401DC600453D7C /* ContainerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContainerTableViewCell.xib; sourceTree = "<group>"; };
@@ -192,7 +194,7 @@
 		846B80772540184D00453D7C /* TableHeaderView */ = {
 			isa = PBXGroup;
 			children = (
-				846B8078254018C800453D7C /* HeaderView.swift */,
+				846B8078254018C800453D7C /* tableHeader.swift */,
 				846B807D2540193700453D7C /* HeaderView.xib */,
 			);
 			path = TableHeaderView;
@@ -325,6 +327,7 @@
 			children = (
 				84241E37251CC55700012D49 /* DateFormatterModel.swift */,
 				843944A42519E4C4003DF607 /* ViewControllerFactory.swift */,
+				2CD659CD2542D44A00508C22 /* ErrorAlert.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -465,7 +468,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1210;
 				TargetAttributes = {
 					84B9FE7E2518BD6800BDD969 = {
 						CreatedOnToolsVersion = 12.0;
@@ -539,7 +542,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				84030743251B33CC00AB3014 /* WeatherNetworkService.swift in Sources */,
-				846B8079254018C800453D7C /* HeaderView.swift in Sources */,
+				2CD659CE2542D44A00508C22 /* ErrorAlert.swift in Sources */,
+				846B8079254018C800453D7C /* tableHeader.swift in Sources */,
 				8439450E251A0F2E003DF607 /* WeatherTableViewCell.swift in Sources */,
 				84B9FE872518BD6800BDD969 /* SelectMethodViewController.swift in Sources */,
 				843944B12519E774003DF607 /* MapViewController.swift in Sources */,
@@ -662,7 +666,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -717,7 +721,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
