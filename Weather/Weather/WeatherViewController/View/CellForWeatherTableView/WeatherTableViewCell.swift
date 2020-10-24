@@ -20,5 +20,6 @@ class WeatherTableViewCell: UITableViewCell {
 //        tableImageView.image = weatherImage.getImage(name: model.weather.last!.icon)
         tempLabel.text = "\(Int(model.main.temp))°"
     }
+
     
 }

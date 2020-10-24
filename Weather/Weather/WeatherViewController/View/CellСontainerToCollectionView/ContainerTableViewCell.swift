@@ -32,7 +32,7 @@ class ContainerTableViewCell: UITableViewCell {
 extension ContainerTableViewCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource  {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return dataSourceCollectionView.count
+        return dataSourceCollectionView.count - 32
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

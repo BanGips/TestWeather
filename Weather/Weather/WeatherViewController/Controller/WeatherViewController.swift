@@ -15,6 +15,7 @@ class WeatherViewController: UIViewController {
     
     private var dataSourceForTableView = [MainWeatherParameters]()
     private var weatherParameters: DecodeModel?
+    private var weatherParam: [RowItem] = []
     
     private let containerCellID = "ContainerTableViewCell"
     private let tableViewCellID = "WeatherTableViewCell"
@@ -48,8 +49,20 @@ class WeatherViewController: UIViewController {
 
             } else if let weatherData = weatherData {
                 self.weatherParameters = weatherData
-                self.dataSourceForTableView.append(contentsOf: weatherData.list)
+//                self.dataSourceForTableView.append(contentsOf: weatherData.list)
+//                self.tableView.reloadData()
+
+                for item in weatherData.list {
+                    let currentDayData = RowItem.curentDayWeather(timeInterval: item.dt, temrepature: item.main.temp)
+                    weatherParam.append(currentDayData)
+                }
+
+                for item in weatherData.list {
+                    let nextDayData = RowItem.nextDayWeather(timeInterval: item.dt, temrepature: item.main.temp)
+                    weatherParam.append(nextDayData)
+                }
                 self.tableView.reloadData()
+                
             }
             
             self.activityIndicator.stopAnimating()
@@ -77,25 +90,40 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return dataSourceForTableView.count
+        return weatherParam.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let rowSetup = indexPath.row
         
-        if rowSetup == 0 {
+        switch weatherParam[indexPath.row] {
+        
+        case .curentDayWeather(timeInterval: let timeInterval, temrepature: let temrepature):
             let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
-            cell.dataSourceCollectionView = dataSourceForTableView
-            
+//            cell.dataSourceCollectionView = dataSourceForTableView
+
             return cell
-        } else {
+        case .nextDayWeather(timeInterval: let timeInterval, temrepature: let temrepature):
             let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! WeatherTableViewCell
-            cell.configure(with: dataSourceForTableView[indexPath.row])
+//            cell.configure(with: dataSourceForTableView[indexPath.row])
             cell.backgroundColor = .clear
             
             return cell
         }
+        
+        
+//        let rowSetup = indexPath.row
+//        if rowSetup == 0 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
+//            cell.dataSourceCollectionView = dataSourceForTableView
+//
+//            return cell
+//        } else {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! WeatherTableViewCell
+//            cell.configure(with: dataSourceForTableView[indexPath.row])
+//            cell.backgroundColor = .clear
+//
+//            return cell
+//        }
         
     }
     
@@ -103,8 +131,8 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension WeatherViewController {
     enum RowItem {
-        case item
-        case row
+        case curentDayWeather(timeInterval: TimeInterval, temrepature: Double)
+        case nextDayWeather(timeInterval: TimeInterval, temrepature: Double)
     }
     
 }

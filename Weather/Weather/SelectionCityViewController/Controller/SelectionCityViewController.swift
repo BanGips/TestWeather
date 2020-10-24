@@ -48,13 +48,13 @@ extension SelectionCityViewController: UICollectionViewDelegateFlowLayout, UICol
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
         guard let weatherCell = cell as? ForSelectionCityCollectionViewCell else { return cell }
-        
         let item = items[indexPath.row]
+        
         switch item {
         case let .item(name, image):
-            weatherCell.cityNameLabel.text = name
-            weatherCell.cityEmblemImage.image = image
+            weatherCell.configure(name: name, image: image)
         }
+        
         return weatherCell
     }
     

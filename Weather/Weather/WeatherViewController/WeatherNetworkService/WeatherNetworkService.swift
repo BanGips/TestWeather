@@ -29,7 +29,9 @@ class WeatherNetworkService {
                     let json = try decoder.decode(DecodeModel.self, from: data)
                     completion(json, nil)
                 }
-                catch { }
+                catch {
+                    print(error)
+                }
             } else {
                 completion(nil, error)
             }
