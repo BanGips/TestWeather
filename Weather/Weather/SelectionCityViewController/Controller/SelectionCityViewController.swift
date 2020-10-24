@@ -47,15 +47,15 @@ extension SelectionCityViewController: UICollectionViewDelegateFlowLayout, UICol
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
-        guard let customCell = cell as? ForSelectionCityCollectionViewCell else { return cell }
-        
+        guard let weatherCell = cell as? ForSelectionCityCollectionViewCell else { return cell }
         let item = items[indexPath.row]
+        
         switch item {
         case let .item(name, image):
-            customCell.cityNameLabel.text = name
-            customCell.cityEmblemImage.image = image
+            weatherCell.configure(name: name, image: image)
         }
-        return customCell
+        
+        return weatherCell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -79,7 +79,6 @@ extension SelectionCityViewController: UICollectionViewDelegateFlowLayout, UICol
 }
 
 extension SelectionCityViewController {
-    
     enum RowItem {
         case item(name: String, image: UIImage!)
     }

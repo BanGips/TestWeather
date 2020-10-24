@@ -17,5 +17,10 @@ class ForSelectionCityCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
     }
+    
+    func configure(name: String, image: UIImage?) {
+        cityNameLabel.text = name
+        cityEmblemImage.image = image
+    }
 
 }

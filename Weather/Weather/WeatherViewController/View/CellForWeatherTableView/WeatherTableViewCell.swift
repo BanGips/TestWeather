@@ -17,8 +17,9 @@ class WeatherTableViewCell: UITableViewCell {
     
     func configure(with model: MainWeatherParameters) {
         dayLabel.text = dateFormatter.convertingNextDaysDate(timeInterval: model.dt)
-        tableImageView.image = weatherImage.getImage(name: model.weather.last!.icon)
+//        tableImageView.image = weatherImage.getImage(name: model.weather.last!.icon)
         tempLabel.text = "\(Int(model.main.temp))°"
     }
+
     
 }

@@ -10,17 +10,14 @@ import CoreLocation
 
 class WeatherViewController: UIViewController {
     
-    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var cityNameLabel: UILabel!
-    @IBOutlet weak var mainTempLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var humidityLabel: UILabel!
-    @IBOutlet weak var windLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     private var dataSourceForTableView = [MainWeatherParameters]()
-    private var dataSourceForCollectView = [MainWeatherParameters]()
-    private let collectionViewCellID = "WeatherCollectionViewCell"
+    private var weatherParameters: DecodeModel?
+    private var weatherParam: [RowItem] = []
+    
+    private let containerCellID = "ContainerTableViewCell"
     private let tableViewCellID = "WeatherTableViewCell"
     
     var cityName: String?
@@ -30,8 +27,8 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
 
         setupTableView()
-        setupCollectionView()
-        setupUI()
+        getWeatherParameters()
+        setupActivityIndicator()
 
     }
     
@@ -39,67 +36,103 @@ class WeatherViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "WeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: tableViewCellID)
+        tableView.register(UINib(nibName: "ContainerTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: containerCellID)
+        
+        let headerNib = UINib(nibName: "HeaderView", bundle: Bundle.main)
+        tableView.register(headerNib, forHeaderFooterViewReuseIdentifier: "HeaderView")
     }
     
-    private func setupCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(UINib(nibName: "WeatherCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: collectionViewCellID)
-    }
-    
-    private func setupUI() {
-        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (response) in
-            let dataSource = response.list
+    private func getWeatherParameters() {
+        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (weatherData, error) in
+            if error != nil {
+                showAlert(description: error!.localizedDescription)
 
-            self.dataSourceForTableView.append(contentsOf: dataSource)
-            self.dataSourceForCollectView.append(contentsOf: dataSource[0...7])
-            self.tableView.reloadData()
-            self.collectionView.reloadData()
-            self.cityNameLabel.text = response.city.name
-            self.mainTempLabel.text = "\(Int(self.dataSourceForCollectView.first!.main.temp))°"
-            self.humidityLabel.text = "Humidity: \(dataSource.first!.main.humidity)%"
-            self.windLabel.text = "Wind m/s: \(dataSource.first!.wind.speed)"
-            self.descriptionLabel.text = "\(dataSource.first!.weather.first!.description)"
+            } else if let weatherData = weatherData {
+                self.weatherParameters = weatherData
+//                self.dataSourceForTableView.append(contentsOf: weatherData.list)
+//                self.tableView.reloadData()
+
+                for item in weatherData.list {
+                    let currentDayData = RowItem.curentDayWeather(timeInterval: item.dt, temrepature: item.main.temp)
+                    weatherParam.append(currentDayData)
+                }
+
+                for item in weatherData.list {
+                    let nextDayData = RowItem.nextDayWeather(timeInterval: item.dt, temrepature: item.main.temp)
+                    weatherParam.append(nextDayData)
+                }
+                self.tableView.reloadData()
+                
+            }
+            
+            self.activityIndicator.stopAnimating()
         }
     }
     
-}
-
-extension WeatherViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataSourceForCollectView.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: collectionViewCellID, for: indexPath)
-        guard let customCell = cell as? WeatherCollectionViewCell else { return cell }
-        customCell.configure(with: dataSourceForCollectView[indexPath.item])
-        
-        return customCell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width / 4.5, height: collectionView.bounds.height)
+    private func setupActivityIndicator() {
+        activityIndicator.transform = CGAffineTransform(scaleX: 3, y: 3)
+        activityIndicator.startAnimating()
     }
     
 }
 
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let tableHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! tableHeader
+        tableHeader.configure(parameters: weatherParameters)
+        
+        return tableHeader
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        return 150
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSourceForTableView.count
+        return weatherParam.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath)
-        guard let customCell = cell as? WeatherTableViewCell else { return cell }
-        customCell.configure(with: dataSourceForTableView[indexPath.row])
-        customCell.backgroundColor = .clear
         
-        return customCell
+        switch weatherParam[indexPath.row] {
+        
+        case .curentDayWeather(timeInterval: let timeInterval, temrepature: let temrepature):
+            let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
+//            cell.dataSourceCollectionView = dataSourceForTableView
+
+            return cell
+        case .nextDayWeather(timeInterval: let timeInterval, temrepature: let temrepature):
+            let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! WeatherTableViewCell
+//            cell.configure(with: dataSourceForTableView[indexPath.row])
+            cell.backgroundColor = .clear
+            
+            return cell
+        }
+        
+        
+//        let rowSetup = indexPath.row
+//        if rowSetup == 0 {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
+//            cell.dataSourceCollectionView = dataSourceForTableView
+//
+//            return cell
+//        } else {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! WeatherTableViewCell
+//            cell.configure(with: dataSourceForTableView[indexPath.row])
+//            cell.backgroundColor = .clear
+//
+//            return cell
+//        }
+        
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.bounds.height / 4
+}
+
+extension WeatherViewController {
+    enum RowItem {
+        case curentDayWeather(timeInterval: TimeInterval, temrepature: Double)
+        case nextDayWeather(timeInterval: TimeInterval, temrepature: Double)
     }
     
 }
