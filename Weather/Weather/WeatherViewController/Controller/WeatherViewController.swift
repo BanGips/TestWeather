@@ -13,12 +13,12 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    private var dataSourceForTableView = [MainWeatherParameters]()
-    private var weatherParameters: DecodeModel?
-    private var weatherParam: [RowItem] = []
+    private var headWeatherParameters: DecodeModel?
+    private var weatherDataSource: [RowItem] = []
     
     private let containerCellID = "ContainerTableViewCell"
     private let tableViewCellID = "WeatherTableViewCell"
+    private let minorWeaherCelID = "MinorWeatherTableViewCell"
     
     var cityName: String?
     var location: CLLocationCoordinate2D?
@@ -37,9 +37,10 @@ class WeatherViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(UINib(nibName: "WeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: tableViewCellID)
         tableView.register(UINib(nibName: "ContainerTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: containerCellID)
+        tableView.register(UINib(nibName: "MinorWeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: minorWeaherCelID)
         
-        let headerNib = UINib(nibName: "HeaderView", bundle: Bundle.main)
-        tableView.register(headerNib, forHeaderFooterViewReuseIdentifier: "HeaderView")
+        let headerNib = UINib(nibName: "TableHeader", bundle: Bundle.main)
+        tableView.register(headerNib, forHeaderFooterViewReuseIdentifier: "TableHeader")
     }
     
     private func getWeatherParameters() {
@@ -48,19 +49,20 @@ class WeatherViewController: UIViewController {
                 showAlert(description: error!.localizedDescription)
 
             } else if let weatherData = weatherData {
-                self.weatherParameters = weatherData
-//                self.dataSourceForTableView.append(contentsOf: weatherData.list)
-//                self.tableView.reloadData()
+                self.headWeatherParameters = weatherData
+
+                let curentDayWeather = RowItem.curentDayWeather(weatherParameters: weatherData.list)
+                weatherDataSource.append(curentDayWeather)
 
                 for item in weatherData.list {
-                    let currentDayData = RowItem.curentDayWeather(timeInterval: item.dt, temrepature: item.main.temp)
-                    weatherParam.append(currentDayData)
+                    let nextDayData = RowItem.nextDayWeather(date: item.dt, temrepature: item.main.temp)
+                    weatherDataSource.append(nextDayData)
+            
                 }
-
-                for item in weatherData.list {
-                    let nextDayData = RowItem.nextDayWeather(timeInterval: item.dt, temrepature: item.main.temp)
-                    weatherParam.append(nextDayData)
-                }
+                
+                let minorWeather = RowItem.minorWeather(humidity: weatherData.list.first!.main.humidity, wind: weatherData.list.first!.wind.speed)
+                weatherDataSource.append(minorWeather)
+                
                 self.tableView.reloadData()
                 
             }
@@ -78,61 +80,48 @@ class WeatherViewController: UIViewController {
 
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let tableHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! tableHeader
-        tableHeader.configure(parameters: weatherParameters)
+        let tableHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableHeader") as! TableHeader
+        tableHeader.configure(parameters: headWeatherParameters)
         
         return tableHeader
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        return 150
-    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 150 }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return weatherParam.count
+        return weatherDataSource.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch weatherParam[indexPath.row] {
-        
-        case .curentDayWeather(timeInterval: let timeInterval, temrepature: let temrepature):
+        switch weatherDataSource[indexPath.row] {
+        case let .curentDayWeather(weatherParameters):
             let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
-//            cell.dataSourceCollectionView = dataSourceForTableView
+            cell.dataSourceCollectionView = weatherParameters
 
             return cell
-        case .nextDayWeather(timeInterval: let timeInterval, temrepature: let temrepature):
+        case let .nextDayWeather(timeInterval, temrepature):
             let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! WeatherTableViewCell
-//            cell.configure(with: dataSourceForTableView[indexPath.row])
+            cell.configure(date: timeInterval, temperature: temrepature)
             cell.backgroundColor = .clear
             
             return cell
+        case let .minorWeather(humidity, wind):
+            let cell = tableView.dequeueReusableCell(withIdentifier: minorWeaherCelID, for: indexPath) as! MinorWeatherTableViewCell
+            cell.configure(humidity: humidity , wind: wind)
+            
+            return cell
         }
-        
-        
-//        let rowSetup = indexPath.row
-//        if rowSetup == 0 {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
-//            cell.dataSourceCollectionView = dataSourceForTableView
-//
-//            return cell
-//        } else {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! WeatherTableViewCell
-//            cell.configure(with: dataSourceForTableView[indexPath.row])
-//            cell.backgroundColor = .clear
-//
-//            return cell
-//        }
-        
+    
     }
     
 }
 
 extension WeatherViewController {
     enum RowItem {
-        case curentDayWeather(timeInterval: TimeInterval, temrepature: Double)
-        case nextDayWeather(timeInterval: TimeInterval, temrepature: Double)
+        case curentDayWeather(weatherParameters: [MainWeatherParameters])
+        case nextDayWeather(date: TimeInterval, temrepature: Double)
+        case minorWeather(humidity: Int, wind: Double)
     }
     
 }

@@ -15,10 +15,10 @@ class WeatherTableViewCell: UITableViewCell {
     private let dateFormatter = DateFormatterModel.shared
     private let weatherImage = WeatherNetworkService.shared
     
-    func configure(with model: MainWeatherParameters) {
-        dayLabel.text = dateFormatter.convertingNextDaysDate(timeInterval: model.dt)
+    func configure(date: TimeInterval, temperature: Double) {
+        dayLabel.text = dateFormatter.convertingNextDaysDate(timeInterval: date)
 //        tableImageView.image = weatherImage.getImage(name: model.weather.last!.icon)
-        tempLabel.text = "\(Int(model.main.temp))°"
+        tempLabel.text = "\(Int(temperature))°"
     }
 
     
