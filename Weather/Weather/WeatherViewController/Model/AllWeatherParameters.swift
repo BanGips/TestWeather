@@ -7,16 +7,28 @@
 
 import UIKit
 
-struct DecodeModel: Decodable {
-    var list: [MainWeatherParameters]
+struct AllWeatherParameters: Decodable {
+    var mainParameters: [MainWeatherParameters]
     var city: CityName
+    
+    enum CodingKeys: String, CodingKey {
+        case mainParameters = "list"
+        case city
+    }
 }
 
 struct MainWeatherParameters: Decodable {
-    var dt: TimeInterval
+    var date: TimeInterval
     var main: TempParameters
     var wind: WindParameters
     var weather: [DescriptionWeather]
+    
+    enum CodingKeys: String, CodingKey {
+        case date = "dt"
+        case main
+        case wind
+        case weather
+    }
 }
 
 struct TempParameters: Decodable {

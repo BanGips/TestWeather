@@ -13,8 +13,8 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    private var headWeatherParameters: DecodeModel?
-    private var weatherDataSource: [RowItem] = []
+    private var headWeatherParameters: AllWeatherParameters?
+    private var mainWeatherParameters = [RowItem]()
     
     private let containerCellID = "ContainerTableViewCell"
     private let tableViewCellID = "WeatherTableViewCell"
@@ -25,11 +25,11 @@ class WeatherViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupTableView()
         getWeatherParameters()
         setupActivityIndicator()
-
+        
     }
     
     private func setupTableView() {
@@ -44,27 +44,35 @@ class WeatherViewController: UIViewController {
     }
     
     private func getWeatherParameters() {
-        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (weatherData, error) in
+        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (weatherData, response, error) in
             if error != nil {
                 showAlert(description: error!.localizedDescription)
-
-            } else if let weatherData = weatherData {
-                self.headWeatherParameters = weatherData
-
-                let curentDayWeather = RowItem.curentDayWeather(weatherParameters: weatherData.list)
-                weatherDataSource.append(curentDayWeather)
-
-                for item in weatherData.list {
-                    let nextDayData = RowItem.nextDayWeather(date: item.dt, temrepature: item.main.temp)
-                    weatherDataSource.append(nextDayData)
+                
+                return
+            } else if let httpResponse = response as? HTTPURLResponse{
+                if httpResponse.statusCode > 200{
+                    showAlert(description: "server problems, try later..")
+                    
+                    return
+                }
+            }
             
+            if let weatherData = weatherData {
+                self.headWeatherParameters = weatherData
+                
+                let curentDayWeather = RowItem.curentDayWeather(weatherParameters: weatherData.mainParameters)
+                mainWeatherParameters.append(curentDayWeather)
+                
+                for item in weatherData.mainParameters {
+                    let nextDayData = RowItem.nextDayWeather(date: item.date, temrepature: item.main.temp)
+                    mainWeatherParameters.append(nextDayData)
+                    
                 }
                 
-                let minorWeather = RowItem.minorWeather(humidity: weatherData.list.first!.main.humidity, wind: weatherData.list.first!.wind.speed)
-                weatherDataSource.append(minorWeather)
+                let minorWeather = RowItem.minorWeather(humidity: weatherData.mainParameters.first!.main.humidity, wind: weatherData.mainParameters.first!.wind.speed)
+                mainWeatherParameters.append(minorWeather)
                 
                 self.tableView.reloadData()
-                
             }
             
             self.activityIndicator.stopAnimating()
@@ -75,7 +83,6 @@ class WeatherViewController: UIViewController {
         activityIndicator.transform = CGAffineTransform(scaleX: 3, y: 3)
         activityIndicator.startAnimating()
     }
-    
 }
 
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
@@ -86,19 +93,19 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         return tableHeader
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 150 }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 120 }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return weatherDataSource.count
+        return mainWeatherParameters.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch weatherDataSource[indexPath.row] {
+        switch mainWeatherParameters[indexPath.row] {
         case let .curentDayWeather(weatherParameters):
             let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
             cell.dataSourceCollectionView = weatherParameters
-
+            
             return cell
         case let .nextDayWeather(timeInterval, temrepature):
             let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! WeatherTableViewCell
@@ -112,7 +119,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         }
-    
+        
     }
     
 }

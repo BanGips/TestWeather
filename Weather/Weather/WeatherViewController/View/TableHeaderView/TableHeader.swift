@@ -13,12 +13,12 @@ class TableHeader: UITableViewHeaderFooterView {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
   
-    func configure(parameters: DecodeModel?) {
+    func configure(parameters: AllWeatherParameters?) {
         guard let testedParameters = parameters else { return }
         
         cityLabel.text = testedParameters.city.name
-        temperatureLabel.text = "\(Int(testedParameters.list.first!.main.temp))°"
-        descriptionLabel.text = "\(testedParameters.list.first!.weather.first!.description)"
+        temperatureLabel.text = "\(Int(testedParameters.mainParameters.first!.main.temp))°"
+        descriptionLabel.text = "\(testedParameters.mainParameters.first!.weather.first!.description)"
     }
     
 }
