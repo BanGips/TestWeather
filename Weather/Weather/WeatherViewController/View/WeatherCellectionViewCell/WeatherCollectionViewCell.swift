@@ -21,9 +21,9 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
 
-    func configure(with model: MainWeatherParameters) {
+    func configure(time: Double, temperature: Double) {
 //        imageView.image = weatherImage.getImage(name: model.weather.last!.icon)
-        timeLabel.text = dataFormatter.convertingCurrentDayDate(timeInterval: model.date)
-        tempLabel.text = "\(Int(model.main.temp))°"
+        timeLabel.text = dataFormatter.convertingCurrentDayDate(timeInterval: time)
+        tempLabel.text = "\(Int(temperature))°"
     }
 }

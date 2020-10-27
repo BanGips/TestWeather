@@ -29,6 +29,7 @@ class WeatherViewController: UIViewController {
         setupTableView()
         getWeatherParameters()
         setupActivityIndicator()
+        setupUI()
         
     }
     
@@ -44,20 +45,12 @@ class WeatherViewController: UIViewController {
     }
     
     private func getWeatherParameters() {
-        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (weatherData, response, error) in
-            if error != nil {
-                showAlert(description: error!.localizedDescription)
+        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (weatherData, error) in
+            if let error = error {
+                showAlert(description: error.localizedDescription)
                 
                 return
-            } else if let httpResponse = response as? HTTPURLResponse{
-                if httpResponse.statusCode > 200{
-                    showAlert(description: "server problems, try later..")
-                    
-                    return
-                }
-            }
-            
-            if let weatherData = weatherData {
+            } else if let weatherData = weatherData {
                 self.headWeatherParameters = weatherData
                 
                 let curentDayWeather = RowItem.curentDayWeather(weatherParameters: weatherData.mainParameters)
@@ -69,7 +62,9 @@ class WeatherViewController: UIViewController {
                     
                 }
                 
-                let minorWeather = RowItem.minorWeather(humidity: weatherData.mainParameters.first!.main.humidity, wind: weatherData.mainParameters.first!.wind.speed)
+                guard let mainParameters = weatherData.mainParameters.first else { return }
+                
+                let minorWeather = RowItem.minorWeather(humidity: mainParameters.main.humidity, wind: mainParameters.wind.speed)
                 mainWeatherParameters.append(minorWeather)
                 
                 self.tableView.reloadData()
@@ -82,6 +77,10 @@ class WeatherViewController: UIViewController {
     private func setupActivityIndicator() {
         activityIndicator.transform = CGAffineTransform(scaleX: 3, y: 3)
         activityIndicator.startAnimating()
+    }
+    
+    private func setupUI() {
+        title = "weather forecast"
     }
 }
 
@@ -104,7 +103,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         switch mainWeatherParameters[indexPath.row] {
         case let .curentDayWeather(weatherParameters):
             let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
-            cell.dataSourceCollectionView = weatherParameters
+            cell.getData(weatherParameters: weatherParameters)
             
             return cell
         case let .nextDayWeather(timeInterval, temrepature):
@@ -127,7 +126,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
 extension WeatherViewController {
     enum RowItem {
         case curentDayWeather(weatherParameters: [MainWeatherParameters])
-        case nextDayWeather(date: TimeInterval, temrepature: Double)
+        case nextDayWeather(date: Double, temrepature: Double)
         case minorWeather(humidity: Int, wind: Double)
     }
     

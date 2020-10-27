@@ -11,7 +11,7 @@ import CoreLocation
 class WeatherNetworkService {
     static let shared = WeatherNetworkService()
   
-    func getWeather(cityName: String?, coordinate: CLLocationCoordinate2D?, completion: @escaping(AllWeatherParameters?, URLResponse?, Error?) -> Void) {
+    func getWeather(cityName: String?, coordinate: CLLocationCoordinate2D?, completion: @escaping(AllWeatherParameters?, Error?) -> Void) {
         var urlSting = ""
         if cityName != nil {
             urlSting = Referens.title.rawValue + "q=\(cityName!)" + Referens.appid.rawValue
@@ -22,18 +22,18 @@ class WeatherNetworkService {
         
         guard let url = URL(string: urlSting ) else { return }
         
-        NetworkService.getData(url: url) { (data, response, error) in
+        NetworkService.getData(url: url) { (data, error) in
             if let data = data {
                 do {
                     let decoder = JSONDecoder()
                     let json = try decoder.decode(AllWeatherParameters.self, from: data)
-                    completion(json, response, nil)
+                    completion(json, nil)
                 }
                 catch {
                     print(error)
                 }
             } else {
-                completion(nil, nil, error)
+                completion(nil, error)
             }
             
         }

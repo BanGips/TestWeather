@@ -9,12 +9,12 @@ import UIKit
 
 class NetworkService {
     
-   static func getData(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
+   static func getData(url: URL, completion: @escaping (Data?, Error?) -> Void) {
         let session = URLSession.shared
         
-        let task = session.dataTask(with: url) { (data, response, error) in
+        let task = session.dataTask(with: url) { (data, responce, error) in
             DispatchQueue.main.async {
-                completion(data, response, error)
+                completion(data, error)
             }
             
         }

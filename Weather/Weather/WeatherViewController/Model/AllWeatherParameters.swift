@@ -18,7 +18,7 @@ struct AllWeatherParameters: Decodable {
 }
 
 struct MainWeatherParameters: Decodable {
-    var date: TimeInterval
+    var date: Double
     var main: TempParameters
     var wind: WindParameters
     var weather: [DescriptionWeather]
