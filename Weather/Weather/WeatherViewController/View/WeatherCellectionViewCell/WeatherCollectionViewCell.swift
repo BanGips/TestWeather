@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class WeatherCollectionViewCell: UICollectionViewCell {
 
@@ -21,8 +22,8 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
 
-    func configure(time: Double, temperature: Double) {
-//        imageView.image = weatherImage.getImage(name: model.weather.last!.icon)
+    func configure(time: Double, image: URL, temperature: Double) {
+        imageView.kf.setImage(with: image)
         timeLabel.text = dataFormatter.convertingCurrentDayDate(timeInterval: time)
         tempLabel.text = "\(Int(temperature))°"
     }

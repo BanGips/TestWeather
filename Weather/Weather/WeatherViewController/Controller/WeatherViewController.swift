@@ -56,8 +56,12 @@ class WeatherViewController: UIViewController {
                 let curentDayWeather = RowItem.curentDayWeather(weatherParameters: weatherData.mainParameters)
                 mainWeatherParameters.append(curentDayWeather)
                 
+                
                 for item in weatherData.mainParameters {
-                    let nextDayData = RowItem.nextDayWeather(date: item.date, temrepature: item.main.temp)
+                    guard let icon = item.weather.last else { return }
+                    guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png") else { return }
+                    
+                    let nextDayData = RowItem.nextDayWeather(date: item.date, imageURL: url, temrepature: item.main.temp)
                     mainWeatherParameters.append(nextDayData)
                     
                 }
@@ -106,9 +110,9 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
             cell.getData(weatherParameters: weatherParameters)
             
             return cell
-        case let .nextDayWeather(timeInterval, temrepature):
+        case let .nextDayWeather(date, imageURL, temrepature):
             let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! WeatherTableViewCell
-            cell.configure(date: timeInterval, temperature: temrepature)
+            cell.configure(date: date, image: imageURL, temperature: temrepature)
             cell.backgroundColor = .clear
             
             return cell
@@ -126,10 +130,8 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
 extension WeatherViewController {
     enum RowItem {
         case curentDayWeather(weatherParameters: [MainWeatherParameters])
-        case nextDayWeather(date: Double, temrepature: Double)
+        case nextDayWeather(date: Double, imageURL: URL, temrepature: Double)
         case minorWeather(humidity: Int, wind: Double)
     }
     
 }
-
-

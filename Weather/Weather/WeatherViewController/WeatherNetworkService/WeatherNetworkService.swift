@@ -39,16 +39,7 @@ class WeatherNetworkService {
         }
         
     }
-    
-    func getImage(name: String) -> UIImage {
-        let string = "https://openweathermap.org/img/wn/\(name)@2x.png"
-        let stringURL = URL(string: string)
-        
-        let data = try! Data(contentsOf: stringURL!)
-        let image = UIImage(data: data)
-        
-        return image!
-    }
+
 }
 
 extension WeatherNetworkService {

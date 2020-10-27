@@ -28,8 +28,12 @@ class ContainerTableViewCell: UITableViewCell {
     }
     
     func getData(weatherParameters: [MainWeatherParameters]) {
+        
         for item in weatherParameters {
-            let currentDayWeather = RowItem.item(time: item.date, temperature: item.main.temp)
+            guard let icon = item.weather.last else { return }
+            guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png") else { return }
+            
+            let currentDayWeather = RowItem.item(time: item.date, imageURL: url, temperature: item.main.temp)
             dataSourceCollectionView.append(currentDayWeather)
         }
     }
@@ -47,8 +51,8 @@ extension ContainerTableViewCell: UICollectionViewDelegateFlowLayout, UICollecti
         guard let weatherCell = cell as? WeatherCollectionViewCell else { return cell }
         
         switch dataSourceCollectionView[indexPath.item] {
-        case let .item(time, temperature):
-            weatherCell.configure(time: time, temperature: temperature)
+        case let .item(time, imageULR, temperature):
+            weatherCell.configure(time: time, image: imageULR, temperature: temperature)
         }
         
         return weatherCell
@@ -63,6 +67,6 @@ extension ContainerTableViewCell: UICollectionViewDelegateFlowLayout, UICollecti
 
 extension ContainerTableViewCell {
     enum RowItem {
-        case item(time: Double, temperature: Double)
+        case item(time: Double, imageURL: URL, temperature: Double)
     }
 }

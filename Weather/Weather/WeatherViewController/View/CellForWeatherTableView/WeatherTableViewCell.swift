@@ -6,18 +6,19 @@
 //
 
 import UIKit
+import Kingfisher
 
 class WeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var tempLabel: UILabel!
     @IBOutlet weak var tableImageView: UIImageView!
-    
+
     private let dateFormatter = DateFormatterModel.shared
     private let weatherImage = WeatherNetworkService.shared
     
-    func configure(date: TimeInterval, temperature: Double) {
+    func configure(date: TimeInterval, image: URL, temperature: Double) {
         dayLabel.text = dateFormatter.convertingNextDaysDate(timeInterval: date)
-//        tableImageView.image = weatherImage.getImage(name: model.weather.last!.icon)
+        tableImageView.kf.setImage(with: image)
         tempLabel.text = "\(Int(temperature))°"
     }
 

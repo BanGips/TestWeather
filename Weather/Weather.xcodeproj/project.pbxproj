@@ -3,12 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		2C8157C92546BEE400306CFC /* MinorWeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8157C72546BEE400306CFC /* MinorWeatherTableViewCell.swift */; };
 		2C8157CA2546BEE400306CFC /* MinorWeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C8157C82546BEE400306CFC /* MinorWeatherTableViewCell.xib */; };
+		2CC685632548359200014180 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 2CC685622548359200014180 /* Kingfisher */; };
+		2CC685692548400100014180 /* IncreasedSizeDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CC685682548400100014180 /* IncreasedSizeDescriptionViewController.swift */; };
 		2CD659CE2542D44A00508C22 /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CD659CD2542D44A00508C22 /* ErrorAlert.swift */; };
 		84030743251B33CC00AB3014 /* WeatherNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84030742251B33CC00AB3014 /* WeatherNetworkService.swift */; };
 		8403074D251B584D00AB3014 /* ForSelectionCityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8403074B251B584D00AB3014 /* ForSelectionCityCollectionViewCell.swift */; };
@@ -62,6 +64,7 @@
 /* Begin PBXFileReference section */
 		2C8157C72546BEE400306CFC /* MinorWeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinorWeatherTableViewCell.swift; sourceTree = "<group>"; };
 		2C8157C82546BEE400306CFC /* MinorWeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MinorWeatherTableViewCell.xib; sourceTree = "<group>"; };
+		2CC685682548400100014180 /* IncreasedSizeDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncreasedSizeDescriptionViewController.swift; sourceTree = "<group>"; };
 		2CD659CD2542D44A00508C22 /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 		84030742251B33CC00AB3014 /* WeatherNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNetworkService.swift; sourceTree = "<group>"; };
 		8403074B251B584D00AB3014 /* ForSelectionCityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForSelectionCityCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -106,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CC685632548359200014180 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +137,14 @@
 				2C8157C82546BEE400306CFC /* MinorWeatherTableViewCell.xib */,
 			);
 			path = MinorWeatherCell;
+			sourceTree = "<group>";
+		};
+		2CC6856725483F2400014180 /* IncreasedSizeDescriptionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				2CC685682548400100014180 /* IncreasedSizeDescriptionViewController.swift */,
+			);
+			path = IncreasedSizeDescriptionViewController;
 			sourceTree = "<group>";
 		};
 		84030741251B338900AB3014 /* WeatherNetworkService */ = {
@@ -180,11 +192,11 @@
 		843944C42519EDA3003DF607 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2C8157C62546BD6900306CFC /* MinorWeatherCell */,
 				846B80772540184D00453D7C /* TableHeaderView */,
 				846B80AB2540392A00453D7C /* WeatherCellectionViewCell */,
 				846B808225401BAD00453D7C /* CellСontainerToCollectionView */,
 				84A50B7B2524C47900852CD3 /* CellForWeatherTableView */,
+				2C8157C62546BD6900306CFC /* MinorWeatherCell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -313,6 +325,7 @@
 				8408526B2525B38A00D97745 /* SelectionCityViewController */,
 				8495141025230C210072590A /* MapViewController */,
 				8495141125230C4C0072590A /* WeatherViewController */,
+				2CC6856725483F2400014180 /* IncreasedSizeDescriptionViewController */,
 				84B9FEBD2518C90E00BDD969 /* SupportingFiles */,
 			);
 			path = Weather;
@@ -435,6 +448,9 @@
 			dependencies = (
 			);
 			name = Weather;
+			packageProductDependencies = (
+				2CC685622548359200014180 /* Kingfisher */,
+			);
 			productName = Weather;
 			productReference = 84B9FE7F2518BD6800BDD969 /* Weather.app */;
 			productType = "com.apple.product-type.application";
@@ -506,6 +522,9 @@
 				Base,
 			);
 			mainGroup = 84B9FE762518BD6800BDD969;
+			packageReferences = (
+				2CC685612548359200014180 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 84B9FE802518BD6800BDD969 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -567,6 +586,7 @@
 				84B9FE832518BD6800BDD969 /* AppDelegate.swift in Sources */,
 				84F92E97253DBB2C00F5EE3A /* LocationManager.swift in Sources */,
 				84394514251A1F74003DF607 /* AllWeatherParameters.swift in Sources */,
+				2CC685692548400100014180 /* IncreasedSizeDescriptionViewController.swift in Sources */,
 				84A93717251A2D2B007644FF /* SelectionCityViewController.swift in Sources */,
 				8439449F2519E109003DF607 /* SelectMethodTableViewCell.swift in Sources */,
 				84241E38251CC55700012D49 /* DateFormatterModel.swift in Sources */,
@@ -909,6 +929,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2CC685612548359200014180 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.15.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2CC685622548359200014180 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2CC685612548359200014180 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 84B9FE772518BD6800BDD969 /* Project object */;
 }
