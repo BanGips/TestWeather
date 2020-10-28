@@ -8,8 +8,16 @@
 import UIKit
 import CoreLocation
 
-class WeatherViewController: UIViewController {
+class WeatherViewController: UIViewController, ContainerTableViewCellDelegate {
+    func openVC(time: Double, imageURL: URL, temperature: Double) {
+        let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
+        destinationVC.date = time
+        destinationVC.imageURL = imageURL
+        destinationVC.temperature = temperature
+        navigationController?.pushViewController(destinationVC, animated: true)
+    }
     
+       
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -52,7 +60,7 @@ class WeatherViewController: UIViewController {
             } else if let weatherData = weatherData {
                 self.headWeatherParameters = weatherData
                 
-                let curentDayWeather = RowItem.curentDayWeather(weatherParameters: weatherData.mainParameters)
+                let curentDayWeather = RowItem.currentDayWeather(weatherParameters: weatherData.mainParameters)
                 mainWeatherParameters.append(curentDayWeather)
                 
                 
@@ -69,12 +77,12 @@ class WeatherViewController: UIViewController {
                 
                 let minorWeather = RowItem.minorWeather(humidity: mainParameters.main.humidity, wind: mainParameters.wind.speed)
                 mainWeatherParameters.append(minorWeather)
-                
-                self.tableView.reloadData()
             }
             
+            self.tableView.reloadData()
             self.activityIndicator.stopAnimating()
         }
+        
     }
     
     private func setupActivityIndicator() {
@@ -85,6 +93,11 @@ class WeatherViewController: UIViewController {
     private func setupUI() {
         title = "Weather forecast"
         setupActivityIndicator()
+    }
+    
+    func getParameters() {
+        let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
+        navigationController?.pushViewController(destinationVC, animated: true)
     }
 }
 
@@ -105,8 +118,9 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch mainWeatherParameters[indexPath.row] {
-        case let .curentDayWeather(weatherParameters):
+        case let .currentDayWeather(weatherParameters):
             let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
+            cell.delegate = self
             cell.getData(weatherParameters: weatherParameters)
             
             return cell
@@ -128,13 +142,13 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         let userTap = mainWeatherParameters[indexPath.row]
         
         switch userTap {
-        case .curentDayWeather(_):
+        case .currentDayWeather(_):
             break
-        case let .nextDayWeather(date, imageURL, temrepature):
+        case let .nextDayWeather(date, imageURL, temperature):
             let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
             destinationVC.date = date
             destinationVC.imageURL = imageURL
-            destinationVC.temperature = temrepature
+            destinationVC.temperature = temperature
             navigationController?.pushViewController(destinationVC, animated: true)
         case .minorWeather(_, _):
             break
@@ -144,7 +158,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension WeatherViewController {
     enum RowItem {
-        case curentDayWeather(weatherParameters: [MainWeatherParameters])
+        case currentDayWeather(weatherParameters: [MainWeatherParameters])
         case nextDayWeather(date: Double, imageURL: URL, temrepature: Double)
         case minorWeather(humidity: Int, wind: Double)
     }

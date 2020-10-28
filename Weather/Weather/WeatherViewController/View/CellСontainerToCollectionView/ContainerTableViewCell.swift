@@ -7,10 +7,16 @@
 
 import UIKit
 
+protocol ContainerTableViewCellDelegate: AnyObject {
+    func openVC(time: Double, imageURL: URL, temperature: Double)
+}
+
 class ContainerTableViewCell: UITableViewCell {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
+    weak var delegate: ContainerTableViewCellDelegate?
+
     private var dataSourceCollectionView = [RowItem]()
     private let collectionViewID = "WeatherCollectionViewCell"
     
@@ -35,6 +41,7 @@ class ContainerTableViewCell: UITableViewCell {
             
             let currentDayWeather = RowItem.item(time: item.date, imageURL: url, temperature: item.main.temp)
             dataSourceCollectionView.append(currentDayWeather)
+            collectionView.reloadData()
         }
     }
     
@@ -63,6 +70,14 @@ extension ContainerTableViewCell: UICollectionViewDelegateFlowLayout, UICollecti
         return CGSize(width: collectionView.bounds.width / 4.4, height: collectionView.bounds.height)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let userTap = dataSourceCollectionView[indexPath.item]
+        switch userTap {
+        case let .item(time, imageURL, temperature):
+            delegate?.openVC(time: time, imageURL: imageURL, temperature: temperature)
+        }
+
+    }
 }
 
 extension ContainerTableViewCell {

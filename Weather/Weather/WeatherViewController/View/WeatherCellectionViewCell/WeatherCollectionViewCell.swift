@@ -14,7 +14,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var tempLabel: UILabel!
 
-    private let dataFormatter = DateFormatterModel.shared
+    private let dataFormatter = DateFormatterManager.shared
     
     override func awakeFromNib() {
         super.awakeFromNib()

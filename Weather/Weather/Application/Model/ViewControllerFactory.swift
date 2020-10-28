@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 struct ViewControllerFactory {
     
     static func makeMapViewController() -> MapViewController {
