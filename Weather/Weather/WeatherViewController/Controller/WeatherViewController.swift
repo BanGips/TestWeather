@@ -28,7 +28,6 @@ class WeatherViewController: UIViewController {
         
         setupTableView()
         getWeatherParameters()
-        setupActivityIndicator()
         setupUI()
         
     }
@@ -84,7 +83,8 @@ class WeatherViewController: UIViewController {
     }
     
     private func setupUI() {
-        title = "weather forecast"
+        title = "Weather forecast"
+        setupActivityIndicator()
     }
 }
 
@@ -122,9 +122,24 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         }
-        
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let userTap = mainWeatherParameters[indexPath.row]
+        
+        switch userTap {
+        case .curentDayWeather(_):
+            break
+        case let .nextDayWeather(date, imageURL, temrepature):
+            let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
+            destinationVC.date = date
+            destinationVC.imageURL = imageURL
+            destinationVC.temperature = temrepature
+            navigationController?.pushViewController(destinationVC, animated: true)
+        case .minorWeather(_, _):
+            break
+        }
+    }
 }
 
 extension WeatherViewController {

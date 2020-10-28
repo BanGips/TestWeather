@@ -14,7 +14,6 @@ class WeatherTableViewCell: UITableViewCell {
     @IBOutlet weak var tableImageView: UIImageView!
 
     private let dateFormatter = DateFormatterModel.shared
-    private let weatherImage = WeatherNetworkService.shared
     
     func configure(date: TimeInterval, image: URL, temperature: Double) {
         dayLabel.text = dateFormatter.convertingNextDaysDate(timeInterval: date)
