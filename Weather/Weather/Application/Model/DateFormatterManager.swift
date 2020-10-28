@@ -33,5 +33,13 @@ class DateFormatterManager {
 
         return dateString
     }
+    
+    func convertingFullDate(timeInterval: TimeInterval) -> String {
+        let date = Date(timeIntervalSince1970: timeInterval)
+        dateFormatter.dateFormat = "E, d MMM yyyy HH:mm"
+        let dateString = dateFormatter.string(from: date)
+        
+        return dateString
+    }
 }
 
