@@ -8,16 +8,8 @@
 import UIKit
 import CoreLocation
 
-class WeatherViewController: UIViewController, ContainerTableViewCellDelegate {
-    func openVC(time: Double, imageURL: URL, temperature: Double) {
-        let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
-        destinationVC.date = time
-        destinationVC.imageURL = imageURL
-        destinationVC.temperature = temperature
-        navigationController?.pushViewController(destinationVC, animated: true)
-    }
+class WeatherViewController: UIViewController {
     
-       
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -163,4 +155,14 @@ extension WeatherViewController {
         case minorWeather(humidity: Int, wind: Double)
     }
     
+}
+
+extension WeatherViewController: ContainerTableViewCellDelegate {
+    func segueToDescriptionViewController(time: Double, imageURL: URL, temperature: Double) {
+        let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
+        destinationVC.date = time
+        destinationVC.imageURL = imageURL
+        destinationVC.temperature = temperature
+        navigationController?.pushViewController(destinationVC, animated: true)
+    }
 }

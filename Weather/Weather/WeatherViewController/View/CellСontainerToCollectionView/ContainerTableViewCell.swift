@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ContainerTableViewCellDelegate: AnyObject {
-    func openVC(time: Double, imageURL: URL, temperature: Double)
+    func segueToDescriptionViewController(time: Double, imageURL: URL, temperature: Double)
 }
 
 class ContainerTableViewCell: UITableViewCell {
@@ -74,7 +74,7 @@ extension ContainerTableViewCell: UICollectionViewDelegateFlowLayout, UICollecti
         let userTap = dataSourceCollectionView[indexPath.item]
         switch userTap {
         case let .item(time, imageURL, temperature):
-            delegate?.openVC(time: time, imageURL: imageURL, temperature: temperature)
+            delegate?.segueToDescriptionViewController(time: time, imageURL: imageURL, temperature: temperature)
         }
 
     }
