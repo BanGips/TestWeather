@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation
 
-class WeatherViewController: UIViewController {
+class WeatherViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -28,7 +28,7 @@ class WeatherViewController: UIViewController {
         
         setupTableView()
         getWeatherParameters()
-        setupUI()
+        setupActivityIndicator()
         
     }
     
@@ -82,15 +82,6 @@ class WeatherViewController: UIViewController {
         activityIndicator.startAnimating()
     }
     
-    private func setupUI() {
-        title = "Weather forecast"
-        setupActivityIndicator()
-    }
-    
-    func getParameters() {
-        let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
-        navigationController?.pushViewController(destinationVC, animated: true)
-    }
 }
 
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {

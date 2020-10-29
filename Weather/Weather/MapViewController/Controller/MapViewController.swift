@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: BaseViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -19,6 +19,7 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         
        setupUI()
+        
     }
     
     private func makeAnnotation(coordinate: CLLocationCoordinate2D ) -> MKPointAnnotation {
@@ -29,7 +30,6 @@ class MapViewController: UIViewController {
     }
     
     private func setupUI() {
-        title = "Map"
         
         let button = UIBarButtonItem(title: "Check", style: .plain, target: self, action: #selector(actionSetting))
         navigationItem.rightBarButtonItem = button

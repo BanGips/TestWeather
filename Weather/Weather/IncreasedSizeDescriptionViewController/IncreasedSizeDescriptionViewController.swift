@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class IncreasedSizeDescriptionViewController: UIViewController {
+class IncreasedSizeDescriptionViewController: BaseViewController {
     
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
@@ -37,3 +37,4 @@ class IncreasedSizeDescriptionViewController: UIViewController {
     }
 
 }
+

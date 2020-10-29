@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SelectionCityViewController: UIViewController {
+class SelectionCityViewController: BaseViewController{
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -24,8 +24,6 @@ class SelectionCityViewController: UIViewController {
         super.viewDidLoad()
         
         setupCollectionView()
-        setupUI()
-        
     }
     
     private func setupCollectionView() {
@@ -33,11 +31,6 @@ class SelectionCityViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: "ForSelectionCityCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: cellID)
     }
-    
-    private func setupUI() {
-        title = "City selection"
-    }
-    
 }
 
 extension SelectionCityViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
