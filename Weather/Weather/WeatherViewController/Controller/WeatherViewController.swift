@@ -104,7 +104,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         case let .currentDayWeather(weatherParameters):
             let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
             cell.delegate = self
-            cell.getData(weatherParameters: weatherParameters)
+            cell.configure(weatherParameters: weatherParameters)
             
             return cell
         case let .nextDayWeather(date, imageURL, temrepature):

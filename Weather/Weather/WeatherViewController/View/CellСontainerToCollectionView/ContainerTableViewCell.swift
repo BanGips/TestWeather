@@ -33,7 +33,7 @@ class ContainerTableViewCell: UITableViewCell {
         collectionView.register(UINib(nibName: "WeatherCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: collectionViewID )
     }
     
-    func getData(weatherParameters: [MainWeatherParameters]) {
+    func configure(weatherParameters: [MainWeatherParameters]) {
         
         for item in weatherParameters {
             guard let icon = item.weather.last else { return }
