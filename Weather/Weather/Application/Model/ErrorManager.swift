@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+public let NetworkingErrorDomain = "api.openweathermap.org.NetworkingError"
+
 extension UIViewController {
     
     func showAlert(description: String) {
@@ -15,4 +17,6 @@ extension UIViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
+    
 }
+

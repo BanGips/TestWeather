@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class WeatherCollectionViewCell: UICollectionViewCell {
 
@@ -13,17 +14,16 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var tempLabel: UILabel!
 
-    private let dataFormatter = DateFormatterModel.shared
-    private let weatherImage = WeatherNetworkService.shared
-
+    private let dataFormatter = DateFormatterManager.shared
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    func configure(with model: MainWeatherParameters) {
-//        imageView.image = weatherImage.getImage(name: model.weather.last!.icon)
-        timeLabel.text = dataFormatter.convertingCurrentDayDate(timeInterval: model.dt)
-        tempLabel.text = "\(Int(model.main.temp))°"
+    func configure(time: Double, image: URL, temperature: Double) {
+        imageView.kf.setImage(with: image)
+        timeLabel.text = dataFormatter.convertingCurrentDayDate(timeInterval: time)
+        tempLabel.text = "\(Int(temperature))°"
     }
 }

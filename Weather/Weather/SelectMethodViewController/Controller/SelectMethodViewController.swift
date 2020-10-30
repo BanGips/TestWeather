@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation
 
-class SelectMethodViewController: UIViewController {
+class SelectMethodViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -19,12 +19,10 @@ class SelectMethodViewController: UIViewController {
         super.viewDidLoad()
         
         setupTableView()
-        setupUI()
-
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         LocationManager.shared.setupLocation()
     }
@@ -34,10 +32,6 @@ class SelectMethodViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(UINib(nibName: "SelectMethodTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: cellID)
 
-    }
-    
-    private func setupUI() {
-        title = "Selection screen"
     }
     
 }

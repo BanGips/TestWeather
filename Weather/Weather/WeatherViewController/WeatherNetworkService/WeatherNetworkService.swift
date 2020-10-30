@@ -10,23 +10,26 @@ import CoreLocation
 
 class WeatherNetworkService {
     static let shared = WeatherNetworkService()
+    
+    let title = "https://api.openweathermap.org/data/2.5/forecast?"
+    let appid = "&appid=43eb687365c30bfd88ebe5bf42cf46d1&&units=metric"
   
-    func getWeather(cityName: String?, coordinate: CLLocationCoordinate2D?, completion: @escaping(DecodeModel?, Error?) -> Void) {
+    func getWeather(cityName: String?, coordinate: CLLocationCoordinate2D?, completion: @escaping(AllWeatherParameters?, Error?) -> Void) {
         var urlSting = ""
         if cityName != nil {
-            urlSting = Referens.title.rawValue + "q=\(cityName!)" + Referens.appid.rawValue
+            urlSting = title + "q=\(cityName!)" + appid
         } else {
             guard let coord = coordinate else { return }
-            urlSting = Referens.title.rawValue + "lat=\(coord.latitude)&lon=\(coord.longitude)" + Referens.appid.rawValue
+            urlSting = title + "lat=\(coord.latitude)&lon=\(coord.longitude)" + appid
         }
         
         guard let url = URL(string: urlSting ) else { return }
         
-        NetworkService.getData(url: url) { (data, error ) in
+        NetworkService.getData(url: url) { (data, error) in
             if let data = data {
                 do {
                     let decoder = JSONDecoder()
-                    let json = try decoder.decode(DecodeModel.self, from: data)
+                    let json = try decoder.decode(AllWeatherParameters.self, from: data)
                     completion(json, nil)
                 }
                 catch {
@@ -39,23 +42,9 @@ class WeatherNetworkService {
         }
         
     }
-    
-    func getImage(name: String) -> UIImage {
-        let string = "https://openweathermap.org/img/wn/\(name)@2x.png"
-        let stringURL = URL(string: string)
-        
-        let data = try! Data(contentsOf: stringURL!)
-        let image = UIImage(data: data)
-        
-        return image!
-    }
+
 }
 
-extension WeatherNetworkService {
-    enum Referens: String {
-        case title = "https://api.openweathermap.org/data/2.5/forecast?"
-        case appid = "&appid=43eb687365c30bfd88ebe5bf42cf46d1&&units=metric"
-    }
-}
+
 
 

@@ -8,28 +8,28 @@
 import UIKit
 import CoreLocation
 
-class WeatherViewController: UIViewController {
+class WeatherViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    private var dataSourceForTableView = [MainWeatherParameters]()
-    private var weatherParameters: DecodeModel?
-    private var weatherParam: [RowItem] = []
+    private var headWeatherParameters: AllWeatherParameters?
+    private var mainWeatherParameters = [RowItem]()
     
     private let containerCellID = "ContainerTableViewCell"
     private let tableViewCellID = "WeatherTableViewCell"
+    private let minorWeaherCelID = "MinorWeatherTableViewCell"
     
     var cityName: String?
     var location: CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupTableView()
         getWeatherParameters()
         setupActivityIndicator()
-
+        
     }
     
     private func setupTableView() {
@@ -37,36 +37,44 @@ class WeatherViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(UINib(nibName: "WeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: tableViewCellID)
         tableView.register(UINib(nibName: "ContainerTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: containerCellID)
+        tableView.register(UINib(nibName: "MinorWeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: minorWeaherCelID)
         
-        let headerNib = UINib(nibName: "HeaderView", bundle: Bundle.main)
-        tableView.register(headerNib, forHeaderFooterViewReuseIdentifier: "HeaderView")
+        let headerNib = UINib(nibName: "TableHeader", bundle: Bundle.main)
+        tableView.register(headerNib, forHeaderFooterViewReuseIdentifier: "TableHeader")
     }
     
     private func getWeatherParameters() {
         WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (weatherData, error) in
-            if error != nil {
-                showAlert(description: error!.localizedDescription)
-
-            } else if let weatherData = weatherData {
-                self.weatherParameters = weatherData
-//                self.dataSourceForTableView.append(contentsOf: weatherData.list)
-//                self.tableView.reloadData()
-
-                for item in weatherData.list {
-                    let currentDayData = RowItem.curentDayWeather(timeInterval: item.dt, temrepature: item.main.temp)
-                    weatherParam.append(currentDayData)
-                }
-
-                for item in weatherData.list {
-                    let nextDayData = RowItem.nextDayWeather(timeInterval: item.dt, temrepature: item.main.temp)
-                    weatherParam.append(nextDayData)
-                }
-                self.tableView.reloadData()
+            if let error = error {
+                showAlert(description: error.localizedDescription)
                 
+                return
+            } else if let weatherData = weatherData {
+                self.headWeatherParameters = weatherData
+                
+                let curentDayWeather = RowItem.currentDayWeather(weatherParameters: weatherData.mainParameters)
+                mainWeatherParameters.append(curentDayWeather)
+                
+                
+                for item in weatherData.mainParameters {
+                    guard let icon = item.weather.last else { return }
+                    guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png") else { return }
+                    
+                    let nextDayData = RowItem.nextDayWeather(date: item.date, imageURL: url, temrepature: item.main.temp)
+                    mainWeatherParameters.append(nextDayData)
+                    
+                }
+                
+                guard let mainParameters = weatherData.mainParameters.first else { return }
+                
+                let minorWeather = RowItem.minorWeather(humidity: mainParameters.main.humidity, wind: mainParameters.wind.speed)
+                mainWeatherParameters.append(minorWeather)
             }
             
+            self.tableView.reloadData()
             self.activityIndicator.stopAnimating()
         }
+        
     }
     
     private func setupActivityIndicator() {
@@ -78,63 +86,74 @@ class WeatherViewController: UIViewController {
 
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let tableHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HeaderView") as! tableHeader
-        tableHeader.configure(parameters: weatherParameters)
+        let tableHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableHeader") as! TableHeader
+        tableHeader.configure(parameters: headWeatherParameters)
         
         return tableHeader
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-        return 150
-    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { return 120 }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return weatherParam.count
+        return mainWeatherParameters.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch weatherParam[indexPath.row] {
-        
-        case .curentDayWeather(timeInterval: let timeInterval, temrepature: let temrepature):
+        switch mainWeatherParameters[indexPath.row] {
+        case let .currentDayWeather(weatherParameters):
             let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
-//            cell.dataSourceCollectionView = dataSourceForTableView
-
+            cell.delegate = self
+            cell.configure(weatherParameters: weatherParameters)
+            
             return cell
-        case .nextDayWeather(timeInterval: let timeInterval, temrepature: let temrepature):
+        case let .nextDayWeather(date, imageURL, temrepature):
             let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! WeatherTableViewCell
-//            cell.configure(with: dataSourceForTableView[indexPath.row])
+            cell.configure(date: date, image: imageURL, temperature: temrepature)
             cell.backgroundColor = .clear
             
             return cell
+        case let .minorWeather(humidity, wind):
+            let cell = tableView.dequeueReusableCell(withIdentifier: minorWeaherCelID, for: indexPath) as! MinorWeatherTableViewCell
+            cell.configure(humidity: humidity , wind: wind)
+            
+            return cell
         }
-        
-        
-//        let rowSetup = indexPath.row
-//        if rowSetup == 0 {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
-//            cell.dataSourceCollectionView = dataSourceForTableView
-//
-//            return cell
-//        } else {
-//            let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellID, for: indexPath) as! WeatherTableViewCell
-//            cell.configure(with: dataSourceForTableView[indexPath.row])
-//            cell.backgroundColor = .clear
-//
-//            return cell
-//        }
-        
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let userTap = mainWeatherParameters[indexPath.row]
+        
+        switch userTap {
+        case .currentDayWeather(_):
+            break
+        case let .nextDayWeather(date, imageURL, temperature):
+            let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
+            destinationVC.date = date
+            destinationVC.imageURL = imageURL
+            destinationVC.temperature = temperature
+            navigationController?.pushViewController(destinationVC, animated: true)
+        case .minorWeather(_, _):
+            break
+        }
+    }
 }
 
 extension WeatherViewController {
     enum RowItem {
-        case curentDayWeather(timeInterval: TimeInterval, temrepature: Double)
-        case nextDayWeather(timeInterval: TimeInterval, temrepature: Double)
+        case currentDayWeather(weatherParameters: [MainWeatherParameters])
+        case nextDayWeather(date: Double, imageURL: URL, temrepature: Double)
+        case minorWeather(humidity: Int, wind: Double)
     }
     
 }
 
-
+extension WeatherViewController: ContainerTableViewCellDelegate {
+    func segueToDescriptionViewController(time: Double, imageURL: URL, temperature: Double) {
+        let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
+        destinationVC.date = time
+        destinationVC.imageURL = imageURL
+        destinationVC.temperature = temperature
+        navigationController?.pushViewController(destinationVC, animated: true)
+    }
+}

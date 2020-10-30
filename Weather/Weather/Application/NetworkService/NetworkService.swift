@@ -14,8 +14,20 @@ class NetworkService {
         
         let task = session.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
-                completion(data, error)
+                if let httpResponse = response as? HTTPURLResponse {
+                    if httpResponse.statusCode == 200 {
+                        completion(data, nil)
+                    } else {
+                        let userInfo = [NSLocalizedDescriptionKey: NSLocalizedString("Missing HTTP Response", comment: "")]
+                        let error = NSError(domain: NetworkingErrorDomain, code: httpResponse.statusCode, userInfo: userInfo)
+                        completion(nil, error)
+                    }
+                } else {
+                    completion(nil, error)
+                }
+            
             }
+            
         }
         task.resume()
     }
