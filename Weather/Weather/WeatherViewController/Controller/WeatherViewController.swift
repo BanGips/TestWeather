@@ -143,14 +143,14 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
 extension WeatherViewController {
     enum RowItem {
         case currentDayWeather(weatherParameters: [MainWeatherParameters])
-        case nextDayWeather(date: Double, imageURL: URL?, temrepature: Double)
+        case nextDayWeather(date: Date, imageURL: URL?, temrepature: Double)
         case minorWeather(humidity: Int, wind: Double)
     }
     
 }
 
 extension WeatherViewController: ContainerTableViewCellDelegate {
-    func segueToDescriptionViewController(time: Double, imageURL: URL?, temperature: Double) {
+    func segueToDescriptionViewController(time: Date, imageURL: URL?, temperature: Double) {
         let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
         destinationVC.date = time
         destinationVC.imageURL = imageURL

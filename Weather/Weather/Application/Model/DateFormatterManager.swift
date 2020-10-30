@@ -18,8 +18,7 @@ class DateFormatterManager {
         return df
     }()
     
-    func convertingDate(timeInterval: TimeInterval, dateFormat: String) -> String {
-        let date = Date(timeIntervalSince1970: timeInterval)
+    func convertingDate(date: Date, dateFormat: String) -> String {
         dateFormatter.dateFormat = dateFormat
         let dateString = dateFormatter.string(from: date)
 

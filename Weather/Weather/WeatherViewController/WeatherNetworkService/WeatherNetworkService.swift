@@ -29,6 +29,8 @@ class WeatherNetworkService {
             if let data = data {
                 do {
                     let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .secondsSince1970
+                    
                     let json = try decoder.decode(AllWeatherParameters.self, from: data)
                     completion(json, nil)
                 }

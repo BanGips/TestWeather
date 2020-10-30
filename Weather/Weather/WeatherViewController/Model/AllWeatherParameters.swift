@@ -15,10 +15,17 @@ struct AllWeatherParameters: Decodable {
         case mainParameters = "list"
         case city
     }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        mainParameters = try container.decode([MainWeatherParameters].self, forKey: .mainParameters)
+        city = try container.decode(CityName.self, forKey: .city)
+        
+    }
 }
 
 struct MainWeatherParameters: Decodable {
-    var date: Double
+    var date: Date
     var main: TempParameters
     var wind: WindParameters
     var weather: [DescriptionWeather]
@@ -28,6 +35,14 @@ struct MainWeatherParameters: Decodable {
         case main
         case wind
         case weather
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        date = try container.decode(Date.self, forKey: .date)
+        main = try container.decode(TempParameters.self, forKey: .main)
+        wind = try container.decode(WindParameters.self, forKey: .wind)
+        weather = try container.decode([DescriptionWeather].self, forKey: .weather)
     }
 }
 

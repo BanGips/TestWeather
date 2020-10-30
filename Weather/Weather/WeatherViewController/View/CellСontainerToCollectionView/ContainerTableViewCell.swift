@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ContainerTableViewCellDelegate: AnyObject {
-    func segueToDescriptionViewController(time: Double, imageURL: URL?, temperature: Double)
+    func segueToDescriptionViewController(time: Date, imageURL: URL?, temperature: Double)
 }
 
 class ContainerTableViewCell: UITableViewCell {
@@ -83,6 +83,6 @@ extension ContainerTableViewCell: UICollectionViewDelegateFlowLayout, UICollecti
 
 extension ContainerTableViewCell {
     enum RowItem {
-        case item(time: Double, imageURL: URL?, temperature: Double)
+        case item(time: Date, imageURL: URL?, temperature: Double)
     }
 }
