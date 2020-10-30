@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ContainerTableViewCellDelegate: AnyObject {
-    func segueToDescriptionViewController(time: Double, imageURL: URL, temperature: Double)
+    func segueToDescriptionViewController(time: Double, imageURL: URL?, temperature: Double)
 }
 
 class ContainerTableViewCell: UITableViewCell {
@@ -36,13 +36,14 @@ class ContainerTableViewCell: UITableViewCell {
     func configure(weatherParameters: [MainWeatherParameters]) {
         
         for item in weatherParameters {
-            guard let icon = item.weather.last else { return }
-            guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png") else { return }
-            
-            let currentDayWeather = RowItem.item(time: item.date, imageURL: url, temperature: item.main.temp)
-            dataSourceCollectionView.append(currentDayWeather)
-            collectionView.reloadData()
+            if let icon = item.weather.last {
+                let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png")
+                
+                let currentDayWeather = RowItem.item(time: item.date, imageURL: url, temperature: item.main.temp)
+                dataSourceCollectionView.append(currentDayWeather)
+            }
         }
+        collectionView.reloadData()
     }
     
 }
@@ -82,6 +83,6 @@ extension ContainerTableViewCell: UICollectionViewDelegateFlowLayout, UICollecti
 
 extension ContainerTableViewCell {
     enum RowItem {
-        case item(time: Double, imageURL: URL, temperature: Double)
+        case item(time: Double, imageURL: URL?, temperature: Double)
     }
 }

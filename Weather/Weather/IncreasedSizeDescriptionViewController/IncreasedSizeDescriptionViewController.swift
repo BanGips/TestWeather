@@ -31,7 +31,7 @@ class IncreasedSizeDescriptionViewController: BaseViewController {
               let imageView = imageView,
               let temperature = temperature else { return }
 
-        dateLabel.text = dateFormatter.convertingFullDate(timeInterval: date)
+        dateLabel.text = dateFormatter.convertingDate(timeInterval: date, dateFormat: "E, d MMM yyyy HH:mm")
         imageView.kf.setImage(with: imageURL)
         temperatureLabel.text = "\(Int(temperature))°"
     }

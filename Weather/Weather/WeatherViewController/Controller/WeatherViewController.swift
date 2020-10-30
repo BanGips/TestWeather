@@ -57,11 +57,12 @@ class WeatherViewController: BaseViewController {
                 
                 
                 for item in weatherData.mainParameters {
-                    guard let icon = item.weather.last else { return }
-                    guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png") else { return }
-                    
-                    let nextDayData = RowItem.nextDayWeather(date: item.date, imageURL: url, temrepature: item.main.temp)
-                    mainWeatherParameters.append(nextDayData)
+                    if let icon = item.weather.last {
+                        let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png")
+                        
+                        let nextDayData = RowItem.nextDayWeather(date: item.date, imageURL: url, temrepature: item.main.temp)
+                        mainWeatherParameters.append(nextDayData)
+                    }
                     
                 }
                 
@@ -142,14 +143,14 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
 extension WeatherViewController {
     enum RowItem {
         case currentDayWeather(weatherParameters: [MainWeatherParameters])
-        case nextDayWeather(date: Double, imageURL: URL, temrepature: Double)
+        case nextDayWeather(date: Double, imageURL: URL?, temrepature: Double)
         case minorWeather(humidity: Int, wind: Double)
     }
     
 }
 
 extension WeatherViewController: ContainerTableViewCellDelegate {
-    func segueToDescriptionViewController(time: Double, imageURL: URL, temperature: Double) {
+    func segueToDescriptionViewController(time: Double, imageURL: URL?, temperature: Double) {
         let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
         destinationVC.date = time
         destinationVC.imageURL = imageURL
