@@ -18,28 +18,14 @@ class DateFormatterManager {
         return df
     }()
     
-    func convertingCurrentDayDate(timeInterval: TimeInterval) -> String {
-        let date = Date(timeIntervalSince1970: timeInterval)
-        dateFormatter.dateFormat = "HH:mm"
-        let dateString = dateFormatter.string(from: date)
-
-        return dateString
-    }
-
-    func convertingNextDaysDate(timeInterval: TimeInterval) -> String {
-        let date = Date(timeIntervalSince1970: timeInterval )
-        dateFormatter.dateFormat = "E, d MMM yyyy"
-        let dateString = dateFormatter.string(from: date)
-
-        return dateString
-    }
-
-    func convertingFullDate(timeInterval: TimeInterval) -> String {
-        let date = Date(timeIntervalSince1970: timeInterval)
-        dateFormatter.dateFormat = "E, d MMM yyyy HH:mm"
+    func convertingDate(date: Date, dateFormat: String) -> String {
+        dateFormatter.dateFormat = dateFormat
         let dateString = dateFormatter.string(from: date)
 
         return dateString
     }
 }
 
+//"HH:mm"
+//"E, d MMM yyyy"
+//"E, d MMM yyyy HH:mm"

@@ -15,8 +15,8 @@ class WeatherTableViewCell: UITableViewCell {
 
     private let dateFormatter = DateFormatterManager.shared
     
-    func configure(date: TimeInterval, image: URL, temperature: Double) {
-        dayLabel.text = dateFormatter.convertingNextDaysDate(timeInterval: date)
+    func configure(date: Date, image: URL?, temperature: Double) {
+        dayLabel.text = dateFormatter.convertingDate(date: date, dateFormat: "E, d MMM yyyy")
         tableImageView.kf.setImage(with: image)
         tempLabel.text = "\(Int(temperature))°"
     }

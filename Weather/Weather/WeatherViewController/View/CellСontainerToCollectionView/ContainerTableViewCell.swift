@@ -7,18 +7,14 @@
 
 import UIKit
 
-protocol ContainerTableViewCellDelegate: AnyObject {
-    func segueToDescriptionViewController(time: Double, imageURL: URL, temperature: Double)
-}
-
 class ContainerTableViewCell: UITableViewCell {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
-    weak var delegate: ContainerTableViewCellDelegate?
-
     private var dataSourceCollectionView = [RowItem]()
     private let collectionViewID = "WeatherCollectionViewCell"
+    
+    var completion: ((Date, URL?, Double) -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,13 +32,14 @@ class ContainerTableViewCell: UITableViewCell {
     func configure(weatherParameters: [MainWeatherParameters]) {
         
         for item in weatherParameters {
-            guard let icon = item.weather.last else { return }
-            guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png") else { return }
-            
-            let currentDayWeather = RowItem.item(time: item.date, imageURL: url, temperature: item.main.temp)
-            dataSourceCollectionView.append(currentDayWeather)
-            collectionView.reloadData()
+            if let icon = item.weather.last {
+                let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png")
+                
+                let currentDayWeather = RowItem.item(time: item.date, imageURL: url, temperature: item.main.temp)
+                dataSourceCollectionView.append(currentDayWeather)
+            }
         }
+        collectionView.reloadData()
     }
     
 }
@@ -74,7 +71,7 @@ extension ContainerTableViewCell: UICollectionViewDelegateFlowLayout, UICollecti
         let userTap = dataSourceCollectionView[indexPath.item]
         switch userTap {
         case let .item(time, imageURL, temperature):
-            delegate?.segueToDescriptionViewController(time: time, imageURL: imageURL, temperature: temperature)
+            completion?(time, imageURL, temperature)
         }
 
     }
@@ -82,6 +79,6 @@ extension ContainerTableViewCell: UICollectionViewDelegateFlowLayout, UICollecti
 
 extension ContainerTableViewCell {
     enum RowItem {
-        case item(time: Double, imageURL: URL, temperature: Double)
+        case item(time: Date, imageURL: URL?, temperature: Double)
     }
 }
