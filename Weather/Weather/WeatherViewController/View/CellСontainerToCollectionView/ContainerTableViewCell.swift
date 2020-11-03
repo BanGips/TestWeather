@@ -7,18 +7,14 @@
 
 import UIKit
 
-protocol ContainerTableViewCellDelegate: AnyObject {
-    func segueToDescriptionViewController(time: Date, imageURL: URL?, temperature: Double)
-}
-
 class ContainerTableViewCell: UITableViewCell {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
-    weak var delegate: ContainerTableViewCellDelegate?
-
     private var dataSourceCollectionView = [RowItem]()
     private let collectionViewID = "WeatherCollectionViewCell"
+    
+    var completion: ((Date, URL?, Double) -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -75,7 +71,7 @@ extension ContainerTableViewCell: UICollectionViewDelegateFlowLayout, UICollecti
         let userTap = dataSourceCollectionView[indexPath.item]
         switch userTap {
         case let .item(time, imageURL, temperature):
-            delegate?.segueToDescriptionViewController(time: time, imageURL: imageURL, temperature: temperature)
+            completion?(time, imageURL, temperature)
         }
 
     }

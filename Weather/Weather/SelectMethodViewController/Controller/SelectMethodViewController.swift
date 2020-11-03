@@ -12,7 +12,7 @@ class SelectMethodViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private let items: [RowItem] = [.checkByCity, .checkByGeo, .checkByMap]
+    private let items = RowItem.allCases
     private let cellID = "SelectMethodTableViewCell"
     
     override func viewDidLoad() {
@@ -67,10 +67,10 @@ extension SelectMethodViewController:  UITableViewDelegate, UITableViewDataSourc
 }
 
 extension SelectMethodViewController {
-    enum RowItem: String {
+    enum RowItem: String, CaseIterable {
+        case checkByCity = "Check by name of city"
         case checkByMap = "Check by map"
         case checkByGeo = "Check by geolocation"
-        case checkByCity = "Check by name of city"
     }
 }
 

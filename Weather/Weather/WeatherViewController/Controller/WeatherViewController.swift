@@ -104,7 +104,13 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
         switch mainWeatherParameters[indexPath.row] {
         case let .currentDayWeather(weatherParameters):
             let cell = tableView.dequeueReusableCell(withIdentifier: containerCellID, for: indexPath) as! ContainerTableViewCell
-            cell.delegate = self
+            cell.completion = { [unowned self] date, url, temp in
+                let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
+                destinationVC.date = date
+                destinationVC.imageURL = url
+                destinationVC.temperature = temp
+                self.navigationController?.pushViewController(destinationVC, animated: true)
+            }
             cell.configure(weatherParameters: weatherParameters)
             
             return cell
@@ -149,12 +155,3 @@ extension WeatherViewController {
     
 }
 
-extension WeatherViewController: ContainerTableViewCellDelegate {
-    func segueToDescriptionViewController(time: Date, imageURL: URL?, temperature: Double) {
-        let destinationVC = ViewControllerFactory.makeIncreasedSizeDescriptionViewController()
-        destinationVC.date = time
-        destinationVC.imageURL = imageURL
-        destinationVC.temperature = temperature
-        navigationController?.pushViewController(destinationVC, animated: true)
-    }
-}
