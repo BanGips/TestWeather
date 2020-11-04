@@ -12,6 +12,7 @@ class WeatherViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    private let networkManager = NetworkManager()
     
     private var headWeatherParameters: AllWeatherParameters?
     private var mainWeatherParameters = [RowItem]()
@@ -44,9 +45,9 @@ class WeatherViewController: BaseViewController {
     }
     
     private func getWeatherParameters() {
-        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (weatherData, error) in
+        networkManager.getWeather(cityName: cityName, lalitude: location?.latitude, longitude: location?.longitude) { [ unowned self] (weatherData, error) in
             if let error = error {
-                showAlert(description: error.localizedDescription)
+                showAlert(description: error)
                 
                 return
             } else if let weatherData = weatherData {
@@ -72,8 +73,11 @@ class WeatherViewController: BaseViewController {
                 mainWeatherParameters.append(minorWeather)
             }
             
-            self.tableView.reloadData()
-            self.activityIndicator.stopAnimating()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.activityIndicator.stopAnimating()
+            }
+        
         }
         
     }
