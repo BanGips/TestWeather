@@ -45,7 +45,7 @@ struct NetworkManager {
                     do {
                         let apiResponse = try JSONDecoder().decode(AllWeatherParameters.self, from: responseData)
                         completion(apiResponse,nil)
-                    }catch {
+                    } catch {
                         print(error)
                         completion(nil, NetworkResponse.unableToDecode.rawValue)
                     }

@@ -23,7 +23,7 @@ extension WeatherApi: EndPointType {
         case .byCity(let cityName):
             return "/data/2.5/forecast?q=\(cityName)&" + NetworkManager.WeatherAPIKey
         case .byCoordinates(let lalitude, let longitude ):
-            return  "/data/2.5/forecast?lat=\(lalitude)&lon=\(longitude)&"
+            return  "/data/2.5/forecast?lat=\(lalitude)&lon=\(longitude)&" + NetworkManager.WeatherAPIKey
         }
     }
     
