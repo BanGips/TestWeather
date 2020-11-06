@@ -45,7 +45,7 @@ class WeatherViewController: BaseViewController {
     }
     
     private func getWeatherParameters() {
-        networkManager.getWeather(cityName: cityName, lalitude: location?.latitude, longitude: location?.longitude) { [ unowned self] (weatherData, error) in
+        networkManager.getWeather(cityName: cityName, location: location) { [ unowned self] (weatherData, error) in
             if let error = error {
                 showAlert(description: error)
                 

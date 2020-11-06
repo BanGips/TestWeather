@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 enum NetworkResponse:String {
     case success
@@ -26,9 +27,16 @@ struct NetworkManager {
     static let WeatherAPIKey = "appid=43eb687365c30bfd88ebe5bf42cf46d1&units=metric"
     let router = Router<WeatherApi>()
     
-    func getWeather(cityName: String?, lalitude: Double?, longitude: Double?, completion: @escaping (_ weather: AllWeatherParameters?,_ error: String?) -> Void) {
+    func getWeather(cityName: String?, location: CLLocationCoordinate2D?, completion: @escaping (_ weather: AllWeatherParameters?,_ error: String?) -> Void) {
+        var requestType: WeatherApi!
         
-        router.request(.byCity(cityName: cityName!)) { (data, response, error) in
+        if let cityName = cityName {
+            requestType = .byCity(cityName: cityName)
+        } else if let location = location {
+            requestType = .byCoordinates(lalitude: location.latitude, longitude: location.longitude)
+        }
+        
+        router.request(requestType) { (data, response, error) in
          
             if error != nil {
                 completion(nil, "Please check your network connection.")
