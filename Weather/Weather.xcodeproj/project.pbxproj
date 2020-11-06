@@ -14,6 +14,9 @@
 		2C6EA32D2553183B0082CD5F /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6EA32C2553183B0082CD5F /* HTTPMethod.swift */; };
 		2C6EA3322553186B0082CD5F /* HTTPTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6EA3312553186B0082CD5F /* HTTPTask.swift */; };
 		2C6EA337255318800082CD5F /* NetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6EA336255318800082CD5F /* NetworkRouter.swift */; };
+		2C7A117A25555FE600E1BC76 /* JSONParameterEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7A117725555FE500E1BC76 /* JSONParameterEncoder.swift */; };
+		2C7A117B25555FE600E1BC76 /* ParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7A117825555FE500E1BC76 /* ParameterEncoding.swift */; };
+		2C7A117C25555FE600E1BC76 /* URLParameterEncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7A117925555FE600E1BC76 /* URLParameterEncoding.swift */; };
 		2C8157C92546BEE400306CFC /* MinorWeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8157C72546BEE400306CFC /* MinorWeatherTableViewCell.swift */; };
 		2C8157CA2546BEE400306CFC /* MinorWeatherTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C8157C82546BEE400306CFC /* MinorWeatherTableViewCell.xib */; };
 		2CC685632548359200014180 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 2CC685622548359200014180 /* Kingfisher */; };
@@ -73,6 +76,9 @@
 		2C6EA32C2553183B0082CD5F /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		2C6EA3312553186B0082CD5F /* HTTPTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPTask.swift; sourceTree = "<group>"; };
 		2C6EA336255318800082CD5F /* NetworkRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRouter.swift; sourceTree = "<group>"; };
+		2C7A117725555FE500E1BC76 /* JSONParameterEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONParameterEncoder.swift; sourceTree = "<group>"; };
+		2C7A117825555FE500E1BC76 /* ParameterEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParameterEncoding.swift; sourceTree = "<group>"; };
+		2C7A117925555FE600E1BC76 /* URLParameterEncoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLParameterEncoding.swift; sourceTree = "<group>"; };
 		2C8157C72546BEE400306CFC /* MinorWeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinorWeatherTableViewCell.swift; sourceTree = "<group>"; };
 		2C8157C82546BEE400306CFC /* MinorWeatherTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MinorWeatherTableViewCell.xib; sourceTree = "<group>"; };
 		2CC685682548400100014180 /* IncreasedSizeDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncreasedSizeDescriptionViewController.swift; sourceTree = "<group>"; };
@@ -141,6 +147,7 @@
 		2C6EA319255317300082CD5F /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				2C7A117625555FBF00E1BC76 /* Encoding */,
 				2C6EA31C2553176B0082CD5F /* Service */,
 				2C6EA31B255317610082CD5F /* Manager */,
 				2C6EA31A255317540082CD5F /* EndPoint */,
@@ -173,6 +180,16 @@
 				2C6EA336255318800082CD5F /* NetworkRouter.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		2C7A117625555FBF00E1BC76 /* Encoding */ = {
+			isa = PBXGroup;
+			children = (
+				2C7A117725555FE500E1BC76 /* JSONParameterEncoder.swift */,
+				2C7A117825555FE500E1BC76 /* ParameterEncoding.swift */,
+				2C7A117925555FE600E1BC76 /* URLParameterEncoding.swift */,
+			);
+			path = Encoding;
 			sourceTree = "<group>";
 		};
 		2C8157C62546BD6900306CFC /* MinorWeatherCell */ = {
@@ -605,6 +622,7 @@
 			files = (
 				2CD659CE2542D44A00508C22 /* ErrorManager.swift in Sources */,
 				846B8079254018C800453D7C /* TableHeader.swift in Sources */,
+				2C7A117C25555FE600E1BC76 /* URLParameterEncoding.swift in Sources */,
 				2C3EB8CA254AB6FE009E8126 /* BaseViewController.swift in Sources */,
 				2C6EA31E255317950082CD5F /* NetworkManager.swift in Sources */,
 				8439450E251A0F2E003DF607 /* WeatherTableViewCell.swift in Sources */,
@@ -617,6 +635,7 @@
 				84F92E97253DBB2C00F5EE3A /* LocationManager.swift in Sources */,
 				84394514251A1F74003DF607 /* AllWeatherParameters.swift in Sources */,
 				2CC685692548400100014180 /* IncreasedSizeDescriptionViewController.swift in Sources */,
+				2C7A117B25555FE600E1BC76 /* ParameterEncoding.swift in Sources */,
 				84A93717251A2D2B007644FF /* SelectionCityViewController.swift in Sources */,
 				8439449F2519E109003DF607 /* SelectMethodTableViewCell.swift in Sources */,
 				2C6EA3322553186B0082CD5F /* HTTPTask.swift in Sources */,
@@ -626,6 +645,7 @@
 				2C8157C92546BEE400306CFC /* MinorWeatherTableViewCell.swift in Sources */,
 				2C6EA337255318800082CD5F /* NetworkRouter.swift in Sources */,
 				2C6EA32D2553183B0082CD5F /* HTTPMethod.swift in Sources */,
+				2C7A117A25555FE600E1BC76 /* JSONParameterEncoder.swift in Sources */,
 				846B808625401DC600453D7C /* ContainerTableViewCell.swift in Sources */,
 				2C6EA328255318200082CD5F /* EndPointType.swift in Sources */,
 				8403074D251B584D00AB3014 /* ForSelectionCityCollectionViewCell.swift in Sources */,

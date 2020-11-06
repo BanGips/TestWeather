@@ -15,15 +15,16 @@ public enum WeatherApi {
 
 extension WeatherApi: EndPointType {
     var baseURL: URL {
-        return URL(string: "https://api.openweathermap.org")!
+        guard let url = URL(string: "https://api.openweathermap.org/") else { fatalError("baseURL could not be configured.")}
+        return url
     }
     
     var path: String {
         switch self {
-        case .byCity(let cityName):
-            return "/data/2.5/forecast?q=\(cityName)&" + NetworkManager.WeatherAPIKey
-        case .byCoordinates(let lalitude, let longitude ):
-            return  "/data/2.5/forecast?lat=\(lalitude)&lon=\(longitude)&" + NetworkManager.WeatherAPIKey
+        case .byCity:
+            return "data/2.5/forecast"
+        case .byCoordinates:
+            return "data/2.5/forecast"
         }
     }
     
@@ -32,7 +33,23 @@ extension WeatherApi: EndPointType {
     }
     
     var task: HTTPTask {
-        return .request
+        switch self {
+        case .byCity(let city):
+            return .requestParameters(bodyParameters: nil,
+                                      bodyEncoding: .urlEncoding,
+                                      urlParameters: ["appid": NetworkManager.WeatherAPIKey,
+                                                      "q": city,
+                                                      "units":"metric"])
+            
+        case .byCoordinates(let lalitude, let longitude):
+            return .requestParameters(bodyParameters: nil,
+                                      bodyEncoding: .urlEncoding,
+                                      urlParameters: ["appid": NetworkManager.WeatherAPIKey,
+                                                      "lat": lalitude,
+                                                      "lon": longitude,
+                                                      "units":"metric"])
+        
+        }
     }
     
 }

@@ -24,7 +24,7 @@ enum Result<String>{
 }
 
 struct NetworkManager {
-    static let WeatherAPIKey = "appid=43eb687365c30bfd88ebe5bf42cf46d1&units=metric"
+    static let WeatherAPIKey = "43eb687365c30bfd88ebe5bf42cf46d1"
     let router = Router<WeatherApi>()
     
     func getWeather(cityName: String?, location: CLLocationCoordinate2D?, completion: @escaping (_ weather: AllWeatherParameters?,_ error: String?) -> Void) {

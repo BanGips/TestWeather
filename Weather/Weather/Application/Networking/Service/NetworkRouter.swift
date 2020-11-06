@@ -36,20 +36,38 @@ class Router<EndPoint: EndPointType>: NetworkRouter {
     }
     
     fileprivate func buildRequest(from route: EndPoint) throws -> URLRequest {
-        let url = URL(string: route.path, relativeTo: route.baseURL)!
-        var request = URLRequest(url: url)
-//        var request = URLRequest(url: route.baseURL.appendingPathComponent(route.path),
-//                                 cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
-//                                 timeoutInterval: 10.0)
+        var request = URLRequest(url: route.baseURL.appendingPathComponent(route.path),
+                                 cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
+                                 timeoutInterval: 10.0)
         
         request.httpMethod = route.httpMethod.rawValue
         
         switch route.task {
         case .request:
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        case .requestParameters(let bodyParameters,
+                                let bodyEncoding,
+                                let urlParameters):
+            
+            try self.configureParameters(bodyParameters: bodyParameters,
+                                         bodyEncoding: bodyEncoding,
+                                         urlParameters: urlParameters,
+                                         request: &request)
         }
-        
+        print(request)
         return request
+    }
+    
+    fileprivate func configureParameters(bodyParameters: Parameters?,
+                                         bodyEncoding: ParameterEncoding,
+                                         urlParameters: Parameters?,
+                                         request: inout URLRequest) throws {
+        do {
+            try bodyEncoding.encode(urlRequest: &request,
+                                    bodyParameters: bodyParameters, urlParameters: urlParameters)
+        } catch {
+            throw error
+        }
     }
     
 }
