@@ -14,6 +14,7 @@ class MapViewController: BaseViewController {
     
     var annotation: MKPointAnnotation!
     var coordinate: CLLocationCoordinate2D!
+    var button = UIBarButtonItem()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,12 +31,13 @@ class MapViewController: BaseViewController {
     }
     
     private func setupUI() {
-        
-        let button = UIBarButtonItem(title: "Check", style: .plain, target: self, action: #selector(actionSetting))
+        button = UIBarButtonItem(title: "Check", style: .plain, target: self, action: #selector(actionSetting))
         navigationItem.rightBarButtonItem = button
+        button.isEnabled = false
     }
     
     @IBAction func tapForPutPin(_ sender: UITapGestureRecognizer) {
+        button.isEnabled = true
         if annotation != nil { mapView.removeAnnotation(annotation) }
         
         let point = sender.location(in: mapView)

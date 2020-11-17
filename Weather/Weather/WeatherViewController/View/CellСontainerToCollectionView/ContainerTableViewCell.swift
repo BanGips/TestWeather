@@ -39,7 +39,9 @@ class ContainerTableViewCell: UITableViewCell {
                 dataSourceCollectionView.append(currentDayWeather)
             }
         }
-        collectionView.reloadData()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
     
 }

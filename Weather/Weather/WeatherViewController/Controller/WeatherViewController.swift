@@ -12,6 +12,7 @@ class WeatherViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    private let networkManager = NetworkManager()
     
     private var headWeatherParameters: AllWeatherParameters?
     private var mainWeatherParameters = [RowItem]()
@@ -44,16 +45,16 @@ class WeatherViewController: BaseViewController {
     }
     
     private func getWeatherParameters() {
-        WeatherNetworkService.shared.getWeather(cityName: cityName, coordinate: location) { [unowned self] (weatherData, error) in
+        networkManager.getWeather(cityName: cityName, location: location) { [ unowned self] (weatherData, error) in
             if let error = error {
-                showAlert(description: error.localizedDescription)
+                self.showAlert(description: error)
                 
                 return
             } else if let weatherData = weatherData {
                 self.headWeatherParameters = weatherData
                 
                 let curentDayWeather = RowItem.currentDayWeather(weatherParameters: weatherData.mainParameters)
-                mainWeatherParameters.append(curentDayWeather)
+                self.mainWeatherParameters.append(curentDayWeather)
                 
                 
                 for item in weatherData.mainParameters {
@@ -61,7 +62,7 @@ class WeatherViewController: BaseViewController {
                         let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png")
                         
                         let nextDayData = RowItem.nextDayWeather(date: item.date, imageURL: url, temrepature: item.main.temp)
-                        mainWeatherParameters.append(nextDayData)
+                        self.mainWeatherParameters.append(nextDayData)
                     }
                     
                 }
@@ -69,11 +70,14 @@ class WeatherViewController: BaseViewController {
                 guard let mainParameters = weatherData.mainParameters.first else { return }
                 
                 let minorWeather = RowItem.minorWeather(humidity: mainParameters.main.humidity, wind: mainParameters.wind.speed)
-                mainWeatherParameters.append(minorWeather)
+                self.mainWeatherParameters.append(minorWeather)
             }
             
-            self.tableView.reloadData()
-            self.activityIndicator.stopAnimating()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.activityIndicator.stopAnimating()
+            }
+        
         }
         
     }
