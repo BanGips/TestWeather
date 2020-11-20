@@ -48,10 +48,12 @@ struct NetworkManager {
                 case .success:
                     guard let responseData = data else {
                         completion(nil, NetworkResponse.noData.rawValue)
-                        return
-                    }
+                        return }
+                    let decoder = JSONDecoder()
+                    decoder.dateDecodingStrategy = .secondsSince1970
+                    
                     do {
-                        let apiResponse = try JSONDecoder().decode(AllWeatherParameters.self, from: responseData)
+                        let apiResponse = try decoder.decode(AllWeatherParameters.self, from: responseData)
                         completion(apiResponse,nil)
                     } catch {
                         print(error)

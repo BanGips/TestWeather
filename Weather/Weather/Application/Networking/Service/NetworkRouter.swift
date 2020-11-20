@@ -54,7 +54,6 @@ class Router<EndPoint: EndPointType>: NetworkRouter {
                                          urlParameters: urlParameters,
                                          request: &request)
         }
-        print(request)
         return request
     }
     

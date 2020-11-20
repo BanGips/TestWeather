@@ -19,11 +19,6 @@ class SelectMethodViewController: BaseViewController {
         super.viewDidLoad()
         
         setupTableView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         LocationManager.shared.setupLocation()
     }
 
