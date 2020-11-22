@@ -31,7 +31,9 @@ class ContainerTableViewCell: UITableViewCell {
     
     func configure(weatherParameters: [MainWeatherParameters]) {
         
-        for item in weatherParameters {
+        let filterWeatherForecast = weatherParameters.filter { $0.date.description.contains(getCurrentDate()) }
+
+        for item in filterWeatherForecast {
             if let icon = item.weather.last {
                 let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png")
                 
@@ -44,6 +46,12 @@ class ContainerTableViewCell: UITableViewCell {
         }
     }
     
+    func getCurrentDate() -> String {
+        let currentDate = Date()
+        let currentDateString = DateFormatterManager.shared.convertingDate(date: currentDate, dateFormat: "yyyy-MM-dd")
+        
+        return currentDateString
+    }
 }
 
 extension ContainerTableViewCell: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource  {

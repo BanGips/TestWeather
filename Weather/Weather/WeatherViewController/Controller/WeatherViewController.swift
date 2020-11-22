@@ -36,6 +36,7 @@ class WeatherViewController: BaseViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.tableFooterView = UIView()
         tableView.register(UINib(nibName: "WeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: tableViewCellID)
         tableView.register(UINib(nibName: "ContainerTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: containerCellID)
         tableView.register(UINib(nibName: "MinorWeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: minorWeaherCelID)
@@ -56,8 +57,9 @@ class WeatherViewController: BaseViewController {
                 let curentDayWeather = RowItem.currentDayWeather(weatherParameters: weatherData.mainParameters)
                 self.mainWeatherParameters.append(curentDayWeather)
                 
+                let filterWeatherForecast = weatherData.mainParameters.filter { $0.date.description.contains("15:00") }
                 
-                for item in weatherData.mainParameters {
+                for item in filterWeatherForecast {
                     if let icon = item.weather.last {
                         let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png")
                         
