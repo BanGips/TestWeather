@@ -57,6 +57,9 @@ extension SelectMethodViewController:  UITableViewDelegate, UITableViewDataSourc
         case .checkByMap:
             let destinationVC = ViewControllerFactory.makeMapViewController()
             navigationController?.pushViewController(destinationVC, animated: true)
+        case .checkPastForecast:
+            let destinationVC = ViewControllerFactory.makeSavedForecastViewController()
+            navigationController?.pushViewController(destinationVC, animated: true)
         }
     }
 }
@@ -66,6 +69,7 @@ extension SelectMethodViewController {
         case checkByCity = "Check by name of city"
         case checkByMap = "Check by map"
         case checkByGeo = "Check by geolocation"
+        case checkPastForecast = "Check past forecast"
     }
 }
 

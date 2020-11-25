@@ -36,4 +36,12 @@ struct ViewControllerFactory {
         
         return destinationVC
     }
+    
+    static func makeSavedForecastViewController() -> SavedForecastViewController {
+        let storybord = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let destinationVC = storybord.instantiateViewController(withIdentifier: "SavedForecastViewController") as! SavedForecastViewController
+        
+        return destinationVC
+    }
+    
 }
