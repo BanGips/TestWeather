@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ContainerTableViewCell: UITableViewCell {
 
@@ -29,12 +30,12 @@ class ContainerTableViewCell: UITableViewCell {
         collectionView.register(UINib(nibName: "WeatherCollectionViewCell", bundle: Bundle.main), forCellWithReuseIdentifier: collectionViewID )
     }
     
-    func configure(weatherParameters: [MainWeatherParameters]) {
+    func configure(weatherParameters: List<MainWeatherParameters>) {
         
-        let filterWeatherForecast = weatherParameters.filter { $0.date.description.contains(getCurrentDate()) }
+        let filterWeatherForecast = weatherParameters.filter { $0.date.description.contains(self.getCurrentDate()) }
 
         for item in filterWeatherForecast {
-            if let icon = item.weather.last {
+            if let icon = item.weatherList.last {
                 let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png")
                 
                 let currentDayWeather = RowItem.item(time: item.date, imageURL: url, temperature: item.main.temp)

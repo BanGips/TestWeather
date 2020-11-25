@@ -7,6 +7,8 @@
 
 import UIKit
 import CoreLocation
+import RealmSwift
+
 
 class WeatherViewController: BaseViewController {
     
@@ -60,7 +62,7 @@ class WeatherViewController: BaseViewController {
                 let filterWeatherForecast = weatherData.mainParameters.filter { $0.date.description.contains("15:00") }
                 
                 for item in filterWeatherForecast {
-                    if let icon = item.weather.last {
+                    if let icon = item.weatherList.last {
                         let url = URL(string: "https://openweathermap.org/img/wn/\(icon.icon)@2x.png")
                         
                         let nextDayData = RowItem.nextDayWeather(date: item.date, imageURL: url, temrepature: item.main.temp)
@@ -154,7 +156,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension WeatherViewController {
     enum RowItem {
-        case currentDayWeather(weatherParameters: [MainWeatherParameters])
+        case currentDayWeather(weatherParameters: List<MainWeatherParameters>)
         case nextDayWeather(date: Date, imageURL: URL?, temrepature: Double)
         case minorWeather(humidity: Int, wind: Double)
     }

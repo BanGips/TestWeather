@@ -18,7 +18,7 @@ class TableHeader: UITableViewHeaderFooterView {
         
         cityLabel.text = testedParameters.city.name
         temperatureLabel.text = "\(Int(testedParameters.mainParameters.first!.main.temp))°"
-        descriptionLabel.text = "\(testedParameters.mainParameters.first!.weather.first!.description)"
+        descriptionLabel.text = "\(testedParameters.mainParameters.first!.weatherList.first!.descrip)"
     }
     
 }
