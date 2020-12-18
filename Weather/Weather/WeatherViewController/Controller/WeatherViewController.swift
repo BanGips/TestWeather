@@ -32,7 +32,18 @@ class WeatherViewController: BaseViewController {
         setupTableView()
         getWeatherParameters()
         setupActivityIndicator()
+        setupUI()
         
+    }
+    
+    private func setupUI() {
+        let button = UIBarButtonItem(title: "Saved", style: .plain, target: self, action: #selector(actionSetting))
+        navigationItem.rightBarButtonItem = button
+    }
+    
+    @objc func actionSetting() {
+        let VC = ViewControllerFactory.makeSavedForecastViewController()
+        navigationController?.pushViewController(VC, animated: true)
     }
     
     private func setupTableView() {

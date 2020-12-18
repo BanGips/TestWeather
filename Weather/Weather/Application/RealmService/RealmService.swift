@@ -16,12 +16,12 @@ class RealmService {
         }
     }
 
-    func getObject<T: Object>(type: T.Type) -> Results<T> {
+    func getObject<T: Object>(type: T.Type) -> [T] {
         let realm = try! Realm()
-        return realm.objects(type)
+        return Array(realm.objects(type))
     }
 
-    func delete() {
+    func deleteAll() {
         let realm = try! Realm()
         try? realm.write {
             realm.deleteAll()
