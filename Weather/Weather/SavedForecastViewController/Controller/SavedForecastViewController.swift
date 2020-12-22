@@ -14,6 +14,7 @@ class SavedForecastViewController: BaseViewController {
     
     private let realm = RealmService()
     private var savedForecast = [RowItem]()
+    private var result = [AllWeatherParameters]()
     
     private let cellID = "SavedWeatherTableViewCell"
     
@@ -45,7 +46,7 @@ class SavedForecastViewController: BaseViewController {
     }
     
     private func getSavedForecast() {
-        let result = realm.getObject(type: AllWeatherParameters.self).sorted { $0.city.name.lowercased() < $1.city.name.lowercased() }
+        result = realm.getObject(type: AllWeatherParameters.self).sorted { $0.city.name.lowercased() < $1.city.name.lowercased() }
         
         for item in result {
             if let icon = item.mainParameters.first?.weatherList.first {
@@ -75,7 +76,14 @@ extension SavedForecastViewController: UITableViewDelegate, UITableViewDataSourc
             cell.temperatureLabel.text = temp?.description
             return cell
         }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let selectedItem = result.remove(at: indexPath.row)
+        realm.deleteObject(selectedItem)
         
+        savedForecast.remove(at: indexPath.row)
+        self.tableView.reloadData()
     }
     
 }
