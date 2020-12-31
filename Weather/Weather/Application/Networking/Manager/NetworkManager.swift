@@ -27,6 +27,7 @@ struct NetworkManager {
     static let WeatherAPIKey = "43eb687365c30bfd88ebe5bf42cf46d1"
     let router = Router<WeatherApi>()
     private let realm = RealmService()
+    private let coreData = CoreDataService()
     
     func getWeather(cityName: String?, location: CLLocationCoordinate2D?, completion: @escaping (_ weather: AllWeatherParameters?,_ error: String?) -> Void) {
         var requestType: WeatherApi!
@@ -60,7 +61,8 @@ struct NetworkManager {
                         DispatchQueue.main.async {
                             apiResponse.id = apiResponse.city.id
                             realm.create(apiResponse)
-                        }
+                            coreData.create(dataForSaving: apiResponse)
+                        }  
                     } catch {
                         print(error)
                         completion(nil, NetworkResponse.unableToDecode.rawValue)

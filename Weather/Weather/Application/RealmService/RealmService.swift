@@ -16,7 +16,7 @@ class RealmService {
         }
     }
 
-    func getObject<T: Object>(type: T.Type) -> [T] {
+    func read<T: Object>(type: T.Type) -> [T] {
         let realm = try! Realm()
         return Array(realm.objects(type))
     }
