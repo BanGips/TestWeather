@@ -26,6 +26,7 @@ enum Result<String>{
 struct NetworkManager {
     static let WeatherAPIKey = "43eb687365c30bfd88ebe5bf42cf46d1"
     let router = Router<WeatherApi>()
+    private let realm = RealmService()
     
     func getWeather(cityName: String?, location: CLLocationCoordinate2D?, completion: @escaping (_ weather: AllWeatherParameters?,_ error: String?) -> Void) {
         var requestType: WeatherApi!
@@ -55,6 +56,11 @@ struct NetworkManager {
                     do {
                         let apiResponse = try decoder.decode(AllWeatherParameters.self, from: responseData)
                         completion(apiResponse,nil)
+                        
+                        DispatchQueue.main.async {
+                            apiResponse.id = apiResponse.city.id
+                            realm.create(apiResponse)
+                        }
                     } catch {
                         print(error)
                         completion(nil, NetworkResponse.unableToDecode.rawValue)
