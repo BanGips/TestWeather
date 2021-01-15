@@ -13,7 +13,6 @@ class SavedForecastViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
     
     private var dataBase: DataBaseProtocol?
-    private var savedForecast = [RowItem]()
     private var items = [DataFormDataBase]()
     
     private let cellID = "SavedWeatherTableViewCell"
@@ -53,28 +52,20 @@ class SavedForecastViewController: BaseViewController {
     @objc func onDeleteAllButtonPress() {
         dataBase?.deleteAll()
 
-        savedForecast.removeAll()
+        items.removeAll()
         tableView.reloadData()
     }
     
-    // MARK: - Realm
+    // MARK:  Realm
     
     private func getSavedForecast() {
         let result = dataBase!.read().sorted { $0.name.lowercased() < $1.name.lowercased() }
-        
-        for item in result {
-                let savedWeather = RowItem.savedForecast(id: item.id,
-                                                         city: item.name,
-                                                         imageURL: item.icon,
-                                                         temrepature: item.temp)
-                savedForecast.append(savedWeather)
-        }
-        
+        items = result
         tableView.reloadData()
     }
     
     
-    // MARK: - Date component
+    // MARK:  Date component
     
     private func getMinutes() -> Int {
         let date = Date()
@@ -87,41 +78,28 @@ class SavedForecastViewController: BaseViewController {
 
 extension SavedForecastViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return savedForecast.count
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! SavedWeatherTableViewCell
+        let item = items[indexPath.row]
         
-        switch savedForecast[indexPath.row] {
-        case .savedForecast(_, let city, let url, let temp):
-            cell.dayLabel.text = city
-            cell.weatherIconImageView.kf.setImage(with: url)
-            cell.temperatureLabel.text = temp?.description
-            
-            return cell
-        }
+        cell.dayLabel.text = item.name
+        cell.weatherIconImageView.kf.setImage(with: item.icon)
+        cell.temperatureLabel.text = Int(item.temp).description + "°"
+        
+        return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         
-        let selectedCity = savedForecast[indexPath.row]
-        switch selectedCity {
-        case .savedForecast(id: let id, _, _, _):
-            
-            dataBase?.deleteObject(id: id)
-            savedForecast.removeAll()
-            
-            getSavedForecast()
-            self.tableView.reloadData()
-        }
-    }
-    
-}
+        let selectedItem = items[indexPath.row].id
+        dataBase?.deleteObject(id: selectedItem)
+        items.removeAll()
+        
+        getSavedForecast()
+        self.tableView.reloadData()
 
-extension SavedForecastViewController {
-    
-    enum RowItem {
-        case savedForecast(id: Int, city: String, imageURL: URL?, temrepature: Double?)
     }
 }
