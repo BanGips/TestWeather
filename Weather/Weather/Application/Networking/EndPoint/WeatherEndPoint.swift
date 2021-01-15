@@ -29,7 +29,12 @@ extension WeatherApi: EndPointType {
     }
     
     var httpMethod: HTTPMethod {
-        return .get
+        switch self {
+        case .byCity:
+            return .get
+        case .byCoordinates:
+            return .get
+        }
     }
     
     var task: HTTPTask {

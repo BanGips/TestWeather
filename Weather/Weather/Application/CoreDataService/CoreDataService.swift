@@ -8,27 +8,28 @@
 import Foundation
 import CoreData
 import UIKit
+import RealmSwift
 
-class CoreDataService: NSObject {
-    
+class CoreDataService: NSObject, DataBaseProtocol {
+   
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     private lazy var managedObjectContext = {
         return appDelegate.persistentContainer.viewContext
     }()
     
-    func create(dataForSaving: AllWeatherParameters) {
+    func create(_ object: AllWeatherParameters) {
         
         do {
-            let test = try managedObjectContext.fetch(fetchRequestPredicate(idPredicate: Int32(dataForSaving.city.id)))
+            let predicate = try managedObjectContext.fetch(fetchRequestPredicate(idPredicate: Int32(object.city.id)))
             
-            if test.isEmpty {
-                createEntityFrom(dataSource: dataForSaving)
+            if predicate.isEmpty {
+                createEntityFrom(dataSource: object)
                 saveData()
             } else {
-                let updateWeather = test.first
-                updateWeather?.temp = dataForSaving.mainParameters.first?.main.temp ?? 0
-                updateWeather?.icon = dataForSaving.mainParameters.first?.weatherList.first?.icon ?? ""
+                let updateWeather = predicate.first
+                updateWeather?.temp = object.mainParameters.first?.main.temp ?? 0
+                updateWeather?.icon = object.mainParameters.first?.weatherList.first?.icon ?? ""
                 saveData()
             }
         } catch {
@@ -66,26 +67,35 @@ class CoreDataService: NSObject {
         }
     }
     
-    func read() -> [AllWeather] {
+    func read() -> [DataFormDataBase] {
         let fetchRequest: NSFetchRequest<AllWeather> = AllWeather.fetchRequest()
-        var items = [AllWeather]()
-        
+        var resultFromDataBase = [AllWeather]()
+
         do {
-            items = try managedObjectContext.fetch(fetchRequest)
+            resultFromDataBase = try managedObjectContext.fetch(fetchRequest)
         } catch {
             print(error.localizedDescription)
         }
         
-        return items
+        let result = resultFromDataBase.map { createItems($0)}
+        return result
     }
     
-    func deleteObject(name: String) {
+    private func createItems(_ object :AllWeather) -> DataFormDataBase {
+        let url = URL(string: "https://openweathermap.org/img/wn/\(object.icon)@2x.png")!
+        return DataFormDataBase(id: Int(object.id),
+                                name: object.name,
+                                temp: object.temp,
+                                icon: url)
+    }
+    
+    func deleteObject(id: Int) {
         let fetchRequest: NSFetchRequest<AllWeather> = AllWeather.fetchRequest()
         do {
             let result = try managedObjectContext.fetch(fetchRequest)
             if result.count > 0 {
                 for item in result {
-                    if item.name == name {
+                    if item.id == id {
                         managedObjectContext.delete(item)
                     }
                 }

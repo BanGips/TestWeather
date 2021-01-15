@@ -61,7 +61,7 @@ struct NetworkManager {
                         DispatchQueue.main.async {
                             apiResponse.id = apiResponse.city.id
                             realm.create(apiResponse)
-                            coreData.create(dataForSaving: apiResponse)
+                            coreData.create(apiResponse)
                         }  
                     } catch {
                         print(error)

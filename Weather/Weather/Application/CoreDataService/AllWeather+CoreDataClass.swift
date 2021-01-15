@@ -8,8 +8,9 @@
 
 import Foundation
 import CoreData
+import RealmSwift
 
 @objc(AllWeather)
-public class AllWeather: NSManagedObject {
+public class AllWeather: NSManagedObject{
 
 }
