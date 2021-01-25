@@ -26,8 +26,8 @@ enum Result<String>{
 struct NetworkManager {
     static let WeatherAPIKey = "43eb687365c30bfd88ebe5bf42cf46d1"
     let router = Router<WeatherApi>()
-//    private let realm = RealmService()
-//    private let coreData = CoreDataService()
+    private let realm = RealmService()
+    private let coreData = CoreDataService()
     
     func getWeather(cityName: String?, location: CLLocationCoordinate2D?, completion: @escaping (_ weather: AllWeatherParameters?,_ error: String?) -> Void) {
         var requestType: WeatherApi!
