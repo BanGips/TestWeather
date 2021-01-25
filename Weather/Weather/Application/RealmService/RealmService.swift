@@ -9,12 +9,13 @@ import Foundation
 import RealmSwift
 
 class RealmService: DataBaseProtocol {
+    
     func read() -> [DataFormDataBase] {
-        let realm = try! Realm()
-        let resultFormDataBase = Array(realm.objects(AllWeatherParameters.self))
-        let result = resultFormDataBase.map { createItems($0) }
-        
-        return result
+            let realm = try! Realm()
+            let resultFormDataBase = Array(realm.objects(AllWeatherParameters.self))
+            let result = resultFormDataBase.map { createItems($0) }
+            
+            return result
     }
     
     private func createItems(_ object :AllWeatherParameters) -> DataFormDataBase {
@@ -54,6 +55,4 @@ class RealmService: DataBaseProtocol {
             realm.deleteAll()
         }
     }
-
-
 }

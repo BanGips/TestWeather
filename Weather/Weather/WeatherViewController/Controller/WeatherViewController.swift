@@ -63,7 +63,6 @@ class WeatherViewController: BaseViewController {
             if let error = error {
                 self.showAlert(description: error)
                 
-                return
             } else if let weatherData = weatherData {
                 self.headWeatherParameters = weatherData
                 

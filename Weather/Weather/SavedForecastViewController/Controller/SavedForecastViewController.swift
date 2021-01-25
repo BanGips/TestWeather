@@ -11,11 +11,9 @@ import Kingfisher
 class SavedForecastViewController: BaseViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    
+
     private var dataBase: DataBaseProtocol?
     private var items = [DataFormDataBase]()
-    
-    private let cellID = "SavedWeatherTableViewCell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +28,7 @@ class SavedForecastViewController: BaseViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "SavedWeatherTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: cellID)
+        tableView.register(UINib(nibName: SavedWeatherTableViewCell.cellID, bundle: Bundle.main), forCellReuseIdentifier: SavedWeatherTableViewCell.cellID)
         
     }
     
@@ -56,12 +54,12 @@ class SavedForecastViewController: BaseViewController {
         tableView.reloadData()
     }
     
-    // MARK:  Realm
     
     private func getSavedForecast() {
-        let result = dataBase!.read().sorted { $0.name.lowercased() < $1.name.lowercased() }
-        items = result
-        tableView.reloadData()
+        let result = self.dataBase!.read().sorted { $0.name.lowercased() < $1.name.lowercased() }
+        self.items = result
+        
+        self.tableView.reloadData()
     }
     
     
@@ -82,7 +80,7 @@ extension SavedForecastViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! SavedWeatherTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: SavedWeatherTableViewCell.cellID, for: indexPath) as! SavedWeatherTableViewCell
         let item = items[indexPath.row]
         
         cell.dayLabel.text = item.name
